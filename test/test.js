@@ -37,20 +37,6 @@ describe('vhost()', function(){
     .expect('loki', done);
   })
 
-  it('should support wildcards', function(done){
-    var app = connect()
-      , tobi = http.createServer(function(req, res){ res.end('tobi') })
-      , loki = http.createServer(function(req, res){ res.end('loki') })
-
-    app.use(vhost('*.ferrets.com', loki));
-    app.use(vhost('tobi.ferrets.com', tobi));
-
-    request(app.listen())
-    .get('/')
-    .set('Host', 'loki.ferrets.com')
-    .expect('loki', done);
-  })
-
   it('should 404 unless matched', function(done){
     var app = connect()
       , tobi = http.createServer(function(req, res){ res.end('tobi') })
@@ -75,5 +61,49 @@ describe('vhost()', function(){
     .get('/')
     .set('Host', 'aXb.com')
     .expect(404, done);
+  })
+
+  describe('when using wildcards', function(){
+    
+    it('should match arbitrary subdomain', function(done){
+      var app  = connect()
+        , loki = http.createServer(function(req, res){ res.end('loki') })
+
+      app.use(vhost('*.ferrets.com', loki));
+
+      request(app.listen())
+      .get('/')
+      .set('Host', 'loki.ferrets.com')
+      .expect('loki', done);
+    })
+
+    it('should take precedence over vhosts created afterward', function(done){
+      var app  = connect()
+        , tobi = http.createServer(function(req, res){ res.end('tobi') })
+        , loki = http.createServer(function(req, res){ res.end('loki') })
+
+      app.use(vhost('*.ferrets.com', loki));
+      app.use(vhost('tobi.ferrets.com', tobi));
+
+      request(app.listen())
+      .get('/')
+      .set('Host', 'tobi.ferrets.com')
+      .expect('loki', done);
+    })
+
+    it('should not take precedence over vhosts created beforehand', function(done){
+      var app  = connect()
+        , tobi = http.createServer(function(req, res){ res.end('tobi') })
+        , loki = http.createServer(function(req, res){ res.end('loki') })
+
+      app.use(vhost('tobi.ferrets.com', tobi));
+      app.use(vhost('*.ferrets.com', loki));
+
+      request(app.listen())
+      .get('/')
+      .set('Host', 'tobi.ferrets.com')
+      .expect('tobi', done);
+    })
+
   })
 })
