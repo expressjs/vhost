@@ -64,7 +64,7 @@ describe('vhost()', function(){
   })
 
   describe('when using wildcards', function(){
-    
+
     it('should match arbitrary subdomain', function(done){
       var app  = connect()
         , loki = http.createServer(function(req, res){ res.end('loki') })
@@ -103,6 +103,18 @@ describe('vhost()', function(){
       .get('/')
       .set('Host', 'tobi.ferrets.com')
       .expect('tobi', done);
+    })
+
+    it('should return the matched subdomain name', function(done){
+      var app  = connect()
+        , loki = http.createServer(function(req, res){ res.end( req.vhost ) })
+
+      app.use(vhost('*.ferrets.com', loki));
+
+      request(app.listen())
+      .get('/')
+      .set('Host', 'loki.ferrets.com')
+      .expect('loki', done);
     })
 
   })
