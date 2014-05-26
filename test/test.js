@@ -105,7 +105,7 @@ describe('vhost()', function(){
       .expect('tobi', done);
     })
 
-    it('should return the matched subdomain name', function(done){
+    it('should return the matched subdomain name in req.vhost', function(done){
       var app  = connect()
         , loki = http.createServer(function(req, res){ res.end( req.vhost ) })
 
