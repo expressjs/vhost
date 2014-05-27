@@ -33,7 +33,7 @@ module.exports = function vhost(hostname, server){
   return function vhost(req, res, next){
     if (!req.headers.host) return next();
     var host = req.headers.host.split(':')[0];
-    var matches = regexp.exec(host)
+    var matches = regexp.exec(host);
     if (matches == null) return next();
     matches.shift();
     req.vhost = { matches: matches };
