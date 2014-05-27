@@ -107,7 +107,7 @@ describe('vhost()', function(){
 
     it('should return the matched subdomain name in req.vhost', function(done){
       var app  = connect()
-        , loki = http.createServer(function(req, res){ res.end( req.vhost ) })
+        , loki = http.createServer(function(req, res){ res.end( req.vhost.matches[0] ) })
 
       app.use(vhost('*.ferrets.com', loki));
 

@@ -35,7 +35,8 @@ module.exports = function vhost(hostname, server){
     var host = req.headers.host.split(':')[0];
     var matches = regexp.exec(host)
     if (matches == null) return next();
-    req.vhost = matches[1];
+    matches.shift();
+    req.vhost = { matches: matches };
     if ('function' == typeof server) return server(req, res, next);
     server.emit('request', req, res);
   };
