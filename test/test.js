@@ -117,7 +117,7 @@ describe('vhost()', function(){
       .expect('loki', done);
     })
 
-    it('should return multiple matches in req.vhost', function(done){
+    it('should return multiple matches in req.vhost, in right-to-left order', function(done){
       var app  = connect()
         , loki = http.createServer(function(req, res){
           res.end( req.vhost[0] + ',' + req.vhost[1] ) 
@@ -128,7 +128,7 @@ describe('vhost()', function(){
       request(app.listen())
       .get('/')
       .set('Host', 'user-loki.group-tobi.ferrets.com')
-      .expect('loki,tobi', done);
+      .expect('tobi,loki', done);
     })
 
   })
