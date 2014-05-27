@@ -105,9 +105,9 @@ describe('vhost()', function(){
       .expect('tobi', done);
     })
 
-    it('should return the matched subdomain name in req.vhost.matches', function(done){
+    it('should return the matched subdomain name in req.vhost', function(done){
       var app  = connect()
-        , loki = http.createServer(function(req, res){ res.end( req.vhost.matches[0] ) })
+        , loki = http.createServer(function(req, res){ res.end( req.vhost[0] ) })
 
       app.use(vhost('*.ferrets.com', loki));
 
@@ -117,10 +117,10 @@ describe('vhost()', function(){
       .expect('loki', done);
     })
 
-    it('should return multiple matches in req.vhost.matches', function(done){
+    it('should return multiple matches in req.vhost', function(done){
       var app  = connect()
         , loki = http.createServer(function(req, res){
-          res.end( req.vhost.matches[0] + ',' + req.vhost.matches[1] ) 
+          res.end( req.vhost[0] + ',' + req.vhost[1] ) 
         })
 
       app.use(vhost('user-*.group-*.ferrets.com', loki));
