@@ -19,11 +19,10 @@
   },
   "devDependencies": {
     "mocha": "^1.17.0",
-    "should": "^3.0.0",
     "supertest": "*",
     "connect": "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "mocha --reporter dot test/"
   }
 }
