@@ -29,7 +29,10 @@
 module.exports = function vhost(hostname, server){
   if (!hostname) throw new Error('vhost hostname required');
   if (!server) throw new Error('vhost server required');
-  var regexp = new RegExp('^' + hostname.replace(/[^*\w]/g, '\\$&').replace(/[*]/g, '(?:.*?)')  + '$', 'i');
+
+  // create regular expression for hostname
+  var regexp = hostregexp(hostname)
+
   return function vhost(req, res, next){
     if (!req.headers.host) return next();
     var host = req.headers.host.split(':')[0];
@@ -38,3 +41,23 @@ module.exports = function vhost(hostname, server){
     server.emit('request', req, res);
   };
 };
+
+/**
+ * Generate RegExp for given hostname string.
+ *
+ * @param (string} str
+ * @api private
+ */
+
+function hostregexp(str){
+  // escape special RegExp characters (except "*")
+  var source = str.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1')
+
+  // anchor matching
+  source = '^' + source + '$'
+
+  // replace wildcard
+  source = source.replace(/\*/g, '(?:.*?)')
+
+  return new RegExp(source, 'i')
+}
