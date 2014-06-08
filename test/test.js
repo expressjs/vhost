@@ -23,6 +23,20 @@ describe('vhost()', function(){
     .expect('tobi', done);
   })
 
+  it('should route with RegExp', function(done){
+    var app = connect()
+      , tobi = connect()
+
+    app.use(vhost(/[tl]o[bk]i\.com/, tobi));
+
+    tobi.use(function(req, res){ res.end('tobi') });
+
+    request(app.listen())
+    .get('/')
+    .set('Host', 'toki.com')
+    .expect('tobi', done);
+  })
+
   it('should support http.Servers', function(done){
     var app = connect()
       , tobi = http.createServer(function(req, res){ res.end('tobi') })

@@ -20,8 +20,7 @@
  *  The `server` may be a Connect server or
  *  a regular Node `http.Server`.
  *
- * @param {String} hostname
- * @param {Server} server
+ * @param {string|RegExp} hostname
  * @return {Function}
  * @api public
  */
@@ -43,21 +42,41 @@ module.exports = function vhost(hostname, server){
 };
 
 /**
- * Generate RegExp for given hostname string.
+ * Determine if object is RegExp.
  *
- * @param (string} str
+ * @param (object} val
+ * @return {boolean}
  * @api private
  */
 
-function hostregexp(str){
-  // escape special RegExp characters (except "*")
-  var source = str.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1')
+function isregexp(val){
+  return Object.prototype.toString.call(val) === '[object RegExp]'
+}
 
-  // anchor matching
-  source = '^' + source + '$'
 
-  // replace wildcard
-  source = source.replace(/\*/g, '(?:.*?)')
+/**
+ * Generate RegExp for given hostname value.
+ *
+ * @param (string|RegExp} val
+ * @api private
+ */
+
+function hostregexp(val){
+  var source = !isregexp(val)
+    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '(?:.*?)')
+    : val.source
+
+  // force leading anchor matching
+  if (source[0] !== '^') {
+    source = '^' + source
+  }
+
+  // force trailing anchor matching
+  source = source.replace(/(\\)*(.)$/, function(s, b, c){
+    return c !== '$' || b.length % 2 === 1
+      ? s + '$'
+      : s
+  })
 
   return new RegExp(source, 'i')
 }

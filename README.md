@@ -22,8 +22,10 @@ var vhost = require('vhost')
 Create a new middleware function to hand off request to `server` when the incoming
 host for the request matches `hostname`.
 
-`hostname` is a string and can contain `*` to match and characters that that spot in
-the hostname.
+`hostname` can be a string or a RegExp object. When `hostname` is a string it can
+contain `*` to match and characters that that spot in the hostname. When `hostname`
+is a RegExp, it will be forced to case-insensitive (since hostnames are) and will
+be forced to match based on the start and end of the hostname.
 
 ## Examples
 
