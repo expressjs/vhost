@@ -17,10 +17,11 @@
  *       .use(connect.vhost('bar.com', barApp))
  *       .use(connect.vhost('*.com', mainApp))
  *
- *  The `server` may be a Connect server or
- *  a regular Node `http.Server`.
+ *  The `server` may be a Connect server, a callable function,
+ *  or a regular Node `http.Server`.
  *
  * @param {string|RegExp} hostname
+ * @param {function|Server} server
  * @return {Function}
  * @api public
  */
@@ -29,6 +30,9 @@ module.exports = function vhost(hostname, server){
   if (!hostname) throw new Error('vhost hostname required');
   if (!server) throw new Error('vhost server required');
 
+  // create a handle for the server
+  var handle = createHandle(server)
+
   // create regular expression for hostname
   var regexp = hostregexp(hostname)
 
@@ -36,10 +40,30 @@ module.exports = function vhost(hostname, server){
     if (!req.headers.host) return next();
     var host = req.headers.host.split(':')[0];
     if (!regexp.test(host)) return next();
-    if ('function' == typeof server) return server(req, res, next);
-    server.emit('request', req, res);
+
+    handle(req, res, next)
   };
 };
+
+/**
+ * Create handle to server.
+ *
+ * @param {function|Server} server
+ * @return {function}
+ * @api private
+ */
+
+function createHandle(server){
+  if (typeof server === 'function') {
+    // callable servers are the handle
+    return server
+  }
+
+  // emit request event on server
+  return function handle(req, res) {
+    server.emit('request', req, res)
+  }
+}
 
 /**
  * Determine if object is RegExp.
@@ -52,7 +76,6 @@ module.exports = function vhost(hostname, server){
 function isregexp(val){
   return Object.prototype.toString.call(val) === '[object RegExp]'
 }
-
 
 /**
  * Generate RegExp for given hostname value.
