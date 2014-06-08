@@ -23,9 +23,9 @@ Create a new middleware function to hand off request to `server` when the incomi
 host for the request matches `hostname`.
 
 `hostname` can be a string or a RegExp object. When `hostname` is a string it can
-contain `*` to match and characters that that spot in the hostname. When `hostname`
-is a RegExp, it will be forced to case-insensitive (since hostnames are) and will
-be forced to match based on the start and end of the hostname.
+contain `*` to match 1 or more characters in that section of the hostname. When
+`hostname` is a RegExp, it will be forced to case-insensitive (since hostnames are)
+and will be forced to match based on the start and end of the hostname.
 
 ## Examples
 

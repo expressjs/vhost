@@ -63,7 +63,7 @@ function isregexp(val){
 
 function hostregexp(val){
   var source = !isregexp(val)
-    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '(?:.*?)')
+    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '(?:[^\.]+)')
     : val.source
 
   // force leading anchor matching
