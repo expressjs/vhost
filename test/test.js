@@ -1,11 +1,10 @@
 
 var connect = require('connect')
-var http = require('http');
-var request = require('supertest');
+var http = require('http')
+var request = require('supertest')
+var vhost = require('..')
 
-var vhost = require('..');
-
-describe('vhost()', function(){
+describe('vhost(hostname, server)', function(){
   it('should route by Host', function(done){
     var app = connect()
       , tobi = connect()
