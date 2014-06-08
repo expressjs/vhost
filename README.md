@@ -1,18 +1,60 @@
-# Virtual Host
+# vhost
+
+[![NPM version](https://badge.fury.io/js/vhost.svg)](http://badge.fury.io/js/vhost)
+[![Build Status](https://travis-ci.org/expressjs/vhost.svg?branch=master)](https://travis-ci.org/expressjs/vhost)
 
 Previously `connect.vhost()`.
 
-Usage:
+## Install
+
+```sh
+$ npm install vhost
+```
+
+## API
 
 ```js
-var connect = require('connect');
-var vhost = require('vhost');
+var vhost = require('vhost')
+```
 
-var app = connect();
+### vhost(hostname, server)
 
-app.use(vhost('mail.example.com', function(req, res){}));
-app.use(vhost('*.example.com', connect()));
-app.use(connect());
+Create a new middleware function to hand off request to `server` when the incoming
+host for the request matches `hostname`.
+
+`hostname` is a string and can contain `*` to match and characters that that spot in
+the hostname.
+
+## Examples
+
+### using with connect for static serving
+
+```js
+var connect = require('connect')
+var serveStatic = require('serve-static')
+var vhost = require('vhost')
+
+var mailapp = connect()
+
+// add middlewares to mailapp for mail.example.com
+
+// create app to serve static files on subdomain
+var staticapp = connect()
+staticapp.use(serveStatic('public'))
+
+// create main app
+var app = connect()
+
+// add vhost routing to main app for mail
+app.use(vhost('mail.example.com', mailapp))
+
+// route static assets for "assets-*" subdomain to get
+// around max host connections limit on browsers
+app.use(vhost('assets-*.example.com', staticapp))
+
+// add middlewares and main usage to app
+
+app.listen(3000)
 ```
 
 ## License
