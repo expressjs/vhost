@@ -27,8 +27,13 @@
  */
 
 module.exports = function vhost(hostname, server){
-  if (!hostname) throw new Error('vhost hostname required');
-  if (!server) throw new Error('vhost server required');
+  if (!hostname) {
+    throw new TypeError('argument hostname is required')
+  }
+
+  if (!server) {
+    throw new Error('argument server is required')
+  }
 
   // create a handle for the server
   var handle = createHandle(server)
@@ -57,12 +62,14 @@ function createHandle(server){
   if (typeof server === 'function') {
     // callable servers are the handle
     return server
+  } else if (typeof server.emit === 'function') {
+    // emit request event on server
+    return function handle(req, res) {
+      server.emit('request', req, res)
+    }
   }
 
-  // emit request event on server
-  return function handle(req, res) {
-    server.emit('request', req, res)
-  }
+  throw new TypeError('argument server is unsupported')
 }
 
 /**
@@ -95,7 +102,7 @@ function hostregexp(val){
   }
 
   // force trailing anchor matching
-  source = source.replace(/(\\)*(.)$/, function(s, b, c){
+  source = source.replace(/(\\*)(.)$/, function(s, b, c){
     return c !== '$' || b.length % 2 === 1
       ? s + '$'
       : s
