@@ -42,18 +42,9 @@ module.exports = function vhost(hostname, server){
   var regexp = hostregexp(hostname)
 
   return function vhost(req, res, next){
-    var host = req.headers.host
+    var hostname = hostnameof(req)
 
-    if (!host) {
-      return next()
-    }
-
-    var index = host.indexOf(':')
-    var hostname = index !== -1
-      ? host.substr(0, index)
-      : host
-
-    if (!regexp.test(hostname)) {
+    if (!hostname || !regexp.test(hostname)) {
       return next()
     }
 
@@ -81,6 +72,31 @@ function createHandle(server){
   }
 
   throw new TypeError('argument server is unsupported')
+}
+
+/**
+ * Get hostname of request.
+ *
+ * @param (object} req
+ * @return {string}
+ * @api private
+ */
+
+function hostnameof(req){
+  var host = req.headers.host
+
+  if (!host) {
+    return
+  }
+
+  var offset = host[0] === '['
+    ? host.indexOf(']') + 1
+    : 0
+  var index = host.indexOf(':', offset)
+
+  return index !== -1
+    ? host.substring(0, index)
+    : host
 }
 
 /**

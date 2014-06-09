@@ -33,6 +33,17 @@ describe('vhost(hostname, server)', function(){
     .expect(200, 'tobi', done)
   })
 
+  it('should support IPv6 literal in Host', function(done){
+    var app = createServer('[::1]', function (req, res) {
+      res.end('loopback')
+    })
+
+    request(app)
+    .get('/')
+    .set('Host', '[::1]:8080')
+    .expect(200, 'loopback', done)
+  })
+
   it('should 404 unless matched', function(done){
     var vhosts = []
 
