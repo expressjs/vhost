@@ -44,10 +44,20 @@ module.exports = function vhost(hostname, server){
   return function vhost(req, res, next){
     var hostname = hostnameof(req)
 
-    if (!hostname || !regexp.test(hostname)) {
+    if (!hostname) {
       return next()
     }
 
+    var match = regexp.exec(hostname)
+
+    if (!match) {
+      return next()
+    }
+
+    // populate
+    req.vhost = data(match)
+
+    // handle
     handle(req, res, next)
   };
 };
@@ -72,6 +82,27 @@ function createHandle(server){
   }
 
   throw new TypeError('argument server is unsupported')
+}
+
+/**
+ * Create the value for req.vhost from a RegExp match.
+ *
+ * @param (object} match
+ * @return {object}
+ * @api private
+ */
+
+function data(match){
+  var obj = Object.create(null)
+
+  obj.hostname = match.input
+  obj.length = match.length - 1
+
+  for (var i = 1; i < match.length; i++) {
+    obj[i - 1] = match[i]
+  }
+
+  return obj
 }
 
 /**
@@ -120,7 +151,7 @@ function isregexp(val){
 
 function hostregexp(val){
   var source = !isregexp(val)
-    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '(?:[^\.]+)')
+    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '([^\.]+)')
     : val.source
 
   // force leading anchor matching

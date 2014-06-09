@@ -156,6 +156,19 @@ describe('vhost(hostname, server)', function(){
       .set('Host', 'foo.com')
       .expect(404, done)
     })
+
+    it('should populate req.vhost', function(done){
+      var app = createServer('user-*.*.com', function(req, res){
+        var keys = Object.keys(req.vhost).sort()
+        var arr = keys.map(function(k){ return [k, req.vhost[k]] })
+        res.end(JSON.stringify(arr))
+      })
+
+      request(app)
+      .get('/')
+      .set('Host', 'user-bob.foo.com:8080')
+      .expect(200, '[["0","bob"],["1","foo"],["hostname","user-bob.foo.com"],["length",2]]', done)
+    })
   })
 
   describe('with RegExp hostname', function(){
@@ -185,6 +198,19 @@ describe('vhost(hostname, server)', function(){
       .get('/')
       .set('Host', 'loki.tobi.com')
       .expect(404, done)
+    })
+
+    it('should populate req.vhost', function(done){
+      var app = createServer(/user-(bob|joe)\.([^\.]+)\.com/, function(req, res){
+        var keys = Object.keys(req.vhost).sort()
+        var arr = keys.map(function(k){ return [k, req.vhost[k]] })
+        res.end(JSON.stringify(arr))
+      })
+
+      request(app)
+      .get('/')
+      .set('Host', 'user-bob.foo.com:8080')
+      .expect(200, '[["0","bob"],["1","foo"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
 

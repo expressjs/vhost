@@ -2,6 +2,7 @@
 ===
 
   * Accept `RegExp` object for `hostname`
+  * Provide `req.vhost` object
   * Remove old invocation of `server.onvhost`
   * String `hostname` with `*` behave more like SSL certificates
   * Support IPv6 literal in `Host` header

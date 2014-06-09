@@ -28,6 +28,19 @@ contain `*` to match 1 or more characters in that section of the hostname. When
 `hostname` is a RegExp, it will be forced to case-insensitive (since hostnames are)
 and will be forced to match based on the start and end of the hostname.
 
+When host is matched and the request is sent down to a vhost handler, the `req.vhost`
+property will be populated with an object. This object will have numeric properties
+corresponding to each wildcard (or capture group if RegExp object provided) and the
+`hostname` that was matched.
+
+```js
+// for match of "foo.bar.example.com" against "*.*.example.com":
+req.vhost.hostname === 'foo.bar.example.com'
+req.vhost.length === 2
+req.vhost[0] === 'foo'
+req.vhost[1] === 'bar'
+```
+
 ## Examples
 
 ### using with connect for static serving
