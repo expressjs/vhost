@@ -73,6 +73,44 @@ app.use(vhost('assets-*.example.com', staticapp))
 app.listen(3000)
 ```
 
+### using with connect for user subdomains
+
+```js
+var connect = require('connect')
+var serveStatic = require('serve-static')
+var vhost = require('vhost')
+
+var mainapp = connect()
+
+// add middlewares to mainapp for the main web site
+
+// create app that will server user content from public/{username}/
+var userapp = connect()
+
+userapp.user(function(req, res, next){
+  var username = req.vhost[0] // username is the "*"
+
+  // pretend request was for /{username}/* for file serving
+  req.originalUrl = req.url
+  req.url = '/' + username + req.url
+
+  next()
+})
+userapp.use(serveStatic('public'))
+
+// create main app
+var app = connect()
+
+// add vhost routing for main app
+app.use(vhost('userpages.local', mainapp))
+app.use(vhost('www.userpages.local', mainapp))
+
+// listen on all subdomains for user pages
+app.use(vhost('*.userpages.local', userapp)
+
+app.listen(3000)
+```
+
 ## License
 
 The MIT License (MIT)
