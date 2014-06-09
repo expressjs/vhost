@@ -42,9 +42,20 @@ module.exports = function vhost(hostname, server){
   var regexp = hostregexp(hostname)
 
   return function vhost(req, res, next){
-    if (!req.headers.host) return next();
-    var host = req.headers.host.split(':')[0];
-    if (!regexp.test(host)) return next();
+    var host = req.headers.host
+
+    if (!host) {
+      return next()
+    }
+
+    var index = host.indexOf(':')
+    var hostname = index !== -1
+      ? host.substr(0, index)
+      : host
+
+    if (!regexp.test(hostname)) {
+      return next()
+    }
 
     handle(req, res, next)
   };

@@ -22,6 +22,17 @@ describe('vhost(hostname, server)', function(){
     .expect(200, 'tobi', done)
   })
 
+  it('should ignore port in Host', function(done){
+    var app = createServer('tobi.com', function (req, res) {
+      res.end('tobi')
+    })
+
+    request(app)
+    .get('/')
+    .set('Host', 'tobi.com:8080')
+    .expect(200, 'tobi', done)
+  })
+
   it('should 404 unless matched', function(done){
     var vhosts = []
 
