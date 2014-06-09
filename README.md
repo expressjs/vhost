@@ -2,6 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/vhost.svg)](http://badge.fury.io/js/vhost)
 [![Build Status](https://travis-ci.org/expressjs/vhost.svg?branch=master)](https://travis-ci.org/expressjs/vhost)
+[![Coverage Status](https://img.shields.io/coveralls/expressjs/vhost.svg?branch=master)](https://coveralls.io/r/expressjs/vhost)
 
 Previously `connect.vhost()`.
 
