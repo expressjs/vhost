@@ -3,6 +3,9 @@
   "description": "virtual domain hosting",
   "version": "1.0.0",
   "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
+  "contributors": [
+    "Douglas Christopher Wilson <doug@somethingdoug.com>"
+  ],
   "license": "MIT",
   "repository": "expressjs/vhost",
   "devDependencies": {
