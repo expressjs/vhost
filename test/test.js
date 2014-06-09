@@ -167,7 +167,7 @@ describe('vhost(hostname, server)', function(){
       request(app)
       .get('/')
       .set('Host', 'user-bob.foo.com:8080')
-      .expect(200, '[["0","bob"],["1","foo"],["hostname","user-bob.foo.com"],["length",2]]', done)
+      .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
 
@@ -210,7 +210,7 @@ describe('vhost(hostname, server)', function(){
       request(app)
       .get('/')
       .set('Host', 'user-bob.foo.com:8080')
-      .expect(200, '[["0","bob"],["1","foo"],["hostname","user-bob.foo.com"],["length",2]]', done)
+      .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
 

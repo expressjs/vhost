@@ -42,20 +42,14 @@ module.exports = function vhost(hostname, server){
   var regexp = hostregexp(hostname)
 
   return function vhost(req, res, next){
-    var hostname = hostnameof(req)
+    var vhostdata = vhostof(req, regexp)
 
-    if (!hostname) {
-      return next()
-    }
-
-    var match = regexp.exec(hostname)
-
-    if (!match) {
+    if (!vhostdata) {
       return next()
     }
 
     // populate
-    req.vhost = data(match)
+    req.vhost = vhostdata
 
     // handle
     handle(req, res, next)
@@ -82,27 +76,6 @@ function createHandle(server){
   }
 
   throw new TypeError('argument server is unsupported')
-}
-
-/**
- * Create the value for req.vhost from a RegExp match.
- *
- * @param (object} match
- * @return {object}
- * @api private
- */
-
-function data(match){
-  var obj = Object.create(null)
-
-  obj.hostname = match.input
-  obj.length = match.length - 1
-
-  for (var i = 1; i < match.length; i++) {
-    obj[i - 1] = match[i]
-  }
-
-  return obj
 }
 
 /**
@@ -167,4 +140,40 @@ function hostregexp(val){
   })
 
   return new RegExp(source, 'i')
+}
+
+/**
+ * Get the vhost data of the request for RegExp
+ *
+ * @param (object} req
+ * @param (RegExp} regexp
+ * @return {object}
+ * @api private
+ */
+
+function vhostof(req, regexp){
+  var host = req.headers.host
+  var hostname = hostnameof(req)
+
+  if (!hostname) {
+    return
+  }
+
+  var match = regexp.exec(hostname)
+
+  if (!match) {
+    return
+  }
+
+  var obj = Object.create(null)
+
+  obj.host = host
+  obj.hostname = hostname
+  obj.length = match.length - 1
+
+  for (var i = 1; i < match.length; i++) {
+    obj[i - 1] = match[i]
+  }
+
+  return obj
 }

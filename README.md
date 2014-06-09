@@ -34,7 +34,8 @@ corresponding to each wildcard (or capture group if RegExp object provided) and 
 `hostname` that was matched.
 
 ```js
-// for match of "foo.bar.example.com" against "*.*.example.com":
+// for match of "foo.bar.example.com:8080" against "*.*.example.com":
+req.vhost.host === 'foo.bar.example.com:8080'
 req.vhost.hostname === 'foo.bar.example.com'
 req.vhost.length === 2
 req.vhost[0] === 'foo'
