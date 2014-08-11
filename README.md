@@ -107,7 +107,7 @@ app.use(vhost('userpages.local', mainapp))
 app.use(vhost('www.userpages.local', mainapp))
 
 // listen on all subdomains for user pages
-app.use(vhost('*.userpages.local', userapp)
+app.use(vhost('*.userpages.local', userapp))
 
 app.listen(3000)
 ```
