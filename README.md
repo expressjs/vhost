@@ -88,7 +88,7 @@ var mainapp = connect()
 // create app that will server user content from public/{username}/
 var userapp = connect()
 
-userapp.user(function(req, res, next){
+userapp.use(function(req, res, next){
   var username = req.vhost[0] // username is the "*"
 
   // pretend request was for /{username}/* for file serving
