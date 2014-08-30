@@ -9,22 +9,23 @@
  * Create a vhost middleware.
  *
  * @param {string|RegExp} hostname
- * @param {function|Server} server
+ * @param {function} handle
  * @return {Function}
  * @api public
  */
 
-module.exports = function vhost(hostname, server){
+module.exports = function vhost(hostname, handle) {
   if (!hostname) {
     throw new TypeError('argument hostname is required')
   }
 
-  if (!server) {
-    throw new Error('argument server is required')
+  if (!handle) {
+    throw new TypeError('argument handle is required')
   }
 
-  // create a handle for the server
-  var handle = createHandle(server)
+  if (typeof handle !== 'function') {
+    throw new TypeError('argument handle must be a function')
+  }
 
   // create regular expression for hostname
   var regexp = hostregexp(hostname)
@@ -43,28 +44,6 @@ module.exports = function vhost(hostname, server){
     handle(req, res, next)
   };
 };
-
-/**
- * Create handle to server.
- *
- * @param {function|Server} server
- * @return {function}
- * @api private
- */
-
-function createHandle(server){
-  if (typeof server === 'function') {
-    // callable servers are the handle
-    return server
-  } else if (typeof server.emit === 'function') {
-    // emit request event on server
-    return function handle(req, res) {
-      server.emit('request', req, res)
-    }
-  }
-
-  throw new TypeError('argument server is unsupported')
-}
 
 /**
  * Get hostname of request.

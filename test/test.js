@@ -93,21 +93,17 @@ describe('vhost(hostname, server)', function(){
       })
     })
 
-    describe('server', function(){
+    describe('handle', function(){
       it('should be required', function(){
-        vhost.bind(null, 'loki.com').should.throw(/server.*required/)
+        vhost.bind(null, 'loki.com').should.throw(/handle.*required/)
       })
 
       it('should accept function', function(){
         vhost.bind(null, 'loki.com', function(){}).should.not.throw()
       })
 
-      it('should accept http server', function(){
-        vhost.bind(null, 'loki.com', http.createServer()).should.not.throw()
-      })
-
       it('should reject plain object', function(){
-        vhost.bind(null, 'loki.com', {}).should.throw(/server.*unsupported/)
+        vhost.bind(null, 'loki.com', {}).should.throw(/handle.*function/)
       })
     })
   })
@@ -211,18 +207,6 @@ describe('vhost(hostname, server)', function(){
       .get('/')
       .set('Host', 'user-bob.foo.com:8080')
       .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
-    })
-  })
-
-  describe('server', function(){
-    it('should support http.Servers', function(done){
-      var loki = http.createServer(function(req, res){ res.end('loki') })
-      var app = createServer('loki.com', loki)
-
-      request(app)
-      .get('/')
-      .set('Host', 'loki.com')
-      .expect('loki', done)
     })
   })
 })

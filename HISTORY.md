@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Remove support for sub-http servers; use the `handle` function
+
 2.0.0 / 2014-06-08
 ==================
 
