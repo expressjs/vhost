@@ -6,17 +6,7 @@
  */
 
 /**
- * vhost:
- *
- *   Setup vhost for the given `hostname` and `server`.
- *
- *     connect()
- *       .use(connect.vhost('foo.com', fooApp))
- *       .use(connect.vhost('bar.com', barApp))
- *       .use(connect.vhost('*.com', mainApp))
- *
- *  The `server` may be a Connect server, a callable function,
- *  or a regular Node `http.Server`.
+ * Create a vhost middleware.
  *
  * @param {string|RegExp} hostname
  * @param {function|Server} server
