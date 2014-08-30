@@ -4,6 +4,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
+[![Gratipay][gratipay-image]][gratipay-url]
 
 Previously `connect.vhost()`.
 
@@ -125,3 +126,5 @@ app.listen(3000)
 [coveralls-url]: https://coveralls.io/r/expressjs/vhost
 [downloads-image]: https://img.shields.io/npm/dm/vhost.svg?style=flat
 [downloads-url]: https://npmjs.org/package/vhost
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
+[gratipay-url]: https://gratipay.com/dougwilson/
