@@ -6,8 +6,6 @@
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Gratipay][gratipay-image]][gratipay-url]
 
-Previously `connect.vhost()`.
-
 ## Install
 
 ```sh
