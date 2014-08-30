@@ -1,5 +1,5 @@
-unreleased
-==========
+3.0.0 / 2014-08-29
+==================
 
   * Remove support for sub-http servers; use the `handle` function
 
