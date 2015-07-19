@@ -10,7 +10,7 @@
   "repository": "expressjs/vhost",
   "devDependencies": {
     "istanbul": "0.3.0",
-    "mocha": "~1.21.4",
+    "mocha": "2.2.5",
     "should": "~4.0.1",
     "supertest": "~0.13.0"
   },
