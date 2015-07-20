@@ -116,13 +116,13 @@ app.listen(3000)
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/vhost.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/vhost.svg
 [npm-url]: https://npmjs.org/package/vhost
-[travis-image]: https://img.shields.io/travis/expressjs/vhost.svg?style=flat
+[travis-image]: https://img.shields.io/travis/expressjs/vhost/master.svg
 [travis-url]: https://travis-ci.org/expressjs/vhost
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/vhost.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/vhost/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/vhost
-[downloads-image]: https://img.shields.io/npm/dm/vhost.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/vhost.svg
 [downloads-url]: https://npmjs.org/package/vhost
-[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url]: https://gratipay.com/dougwilson/
