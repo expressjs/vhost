@@ -11,7 +11,7 @@
  * @param {string|RegExp} hostname
  * @param {function} handle
  * @return {Function}
- * @api public
+ * @public
  */
 
 module.exports = function vhost(hostname, handle) {
@@ -50,7 +50,7 @@ module.exports = function vhost(hostname, handle) {
  *
  * @param (object} req
  * @return {string}
- * @api private
+ * @private
  */
 
 function hostnameof(req){
@@ -75,7 +75,7 @@ function hostnameof(req){
  *
  * @param (object} val
  * @return {boolean}
- * @api private
+ * @private
  */
 
 function isregexp(val){
@@ -86,7 +86,7 @@ function isregexp(val){
  * Generate RegExp for given hostname value.
  *
  * @param (string|RegExp} val
- * @api private
+ * @private
  */
 
 function hostregexp(val){
@@ -115,7 +115,7 @@ function hostregexp(val){
  * @param (object} req
  * @param (RegExp} regexp
  * @return {object}
- * @api private
+ * @private
  */
 
 function vhostof(req, regexp){
