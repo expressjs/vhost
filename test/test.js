@@ -1,7 +1,7 @@
 
+var assert = require('assert')
 var http = require('http')
 var request = require('supertest')
-var should = require('should')
 var vhost = require('..')
 
 describe('vhost(hostname, server)', function(){
@@ -81,29 +81,29 @@ describe('vhost(hostname, server)', function(){
   describe('arguments', function(){
     describe('hostname', function(){
       it('should be required', function(){
-        vhost.bind().should.throw(/hostname.*required/)
+        assert.throws(vhost.bind(), /hostname.*required/)
       })
 
       it('should accept string', function(){
-        vhost.bind(null, 'loki.com', function(){}).should.not.throw()
+        assert.doesNotThrow(vhost.bind(null, 'loki.com', function(){}))
       })
 
       it('should accept RegExp', function(){
-        vhost.bind(null, /loki\.com/, function(){}).should.not.throw()
+        assert.doesNotThrow(vhost.bind(null, /loki\.com/, function(){}))
       })
     })
 
     describe('handle', function(){
       it('should be required', function(){
-        vhost.bind(null, 'loki.com').should.throw(/handle.*required/)
+        assert.throws(vhost.bind(null, 'loki.com'), /handle.*required/)
       })
 
       it('should accept function', function(){
-        vhost.bind(null, 'loki.com', function(){}).should.not.throw()
+        assert.doesNotThrow(vhost.bind(null, 'loki.com', function(){}))
       })
 
       it('should reject plain object', function(){
-        vhost.bind(null, 'loki.com', {}).should.throw(/handle.*function/)
+        assert.throws(vhost.bind(null, 'loki.com', {}), /handle.*function/)
       })
     })
   })
