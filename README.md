@@ -18,10 +18,11 @@ $ npm install vhost
 var vhost = require('vhost')
 ```
 
-### vhost(hostname, server)
+### vhost(hostname, handle)
 
-Create a new middleware function to hand off request to `server` when the incoming
-host for the request matches `hostname`.
+Create a new middleware function to hand off request to `handle` when the incoming
+host for the request matches `hostname`. The function is called as
+`handle(req, res, next)`, like a standard middleware.
 
 `hostname` can be a string or a RegExp object. When `hostname` is a string it can
 contain `*` to match 1 or more characters in that section of the hostname. When
@@ -108,6 +109,37 @@ app.use(vhost('www.userpages.local', mainapp))
 
 // listen on all subdomains for user pages
 app.use(vhost('*.userpages.local', userapp))
+
+app.listen(3000)
+```
+
+### using with any generic request handler
+
+```js
+var connect = require('connect')
+var http = require('http')
+var vhost = require('vhost')
+
+// create main app
+var app = connect()
+
+app.use(vhost('mail.example.com', function (req, res) {
+  // handle req + res belonging to mail.example.com
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('hello from mail!')
+}))
+
+// an external api server in any framework
+var httpServer = http.createServer(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('hello from the api!')
+})
+
+app.use(vhost('api.example.com', function (req, res) {
+  // handle req + res belonging to api.example.com
+  // pass the request to a standard Node.js HTTP server
+  httpServer.emit('request', req, res)
+}))
 
 app.listen(3000)
 ```
