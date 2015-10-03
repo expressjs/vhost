@@ -15,6 +15,13 @@
 module.exports = vhost
 
 /**
+ * Module variables.
+ * @private
+ */
+
+var endAnchoredRegExp = /(?:^|[^\\])(?:\\\\)*\$$/
+
+/**
  * Create a vhost middleware.
  *
  * @param {string|RegExp} hostname
@@ -109,11 +116,9 @@ function hostregexp(val) {
   }
 
   // force trailing anchor matching
-  source = source.replace(/(\\*)(.)$/, function (s, b, c) {
-    return c !== '$' || b.length % 2 === 1
-      ? s + '$'
-      : s
-  })
+  if (!endAnchoredRegExp.test(source)) {
+    source += '$'
+  }
 
   return new RegExp(source, 'i')
 }
