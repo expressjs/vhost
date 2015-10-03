@@ -1,11 +1,18 @@
 /*!
  * vhost
  * Copyright(c) 2014 Jonathan Ong
- * Copyright(c) 2014 Douglas Christopher Wilson
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
  * MIT Licensed
  */
 
 'use strict'
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = vhost
 
 /**
  * Create a vhost middleware.
@@ -16,7 +23,7 @@
  * @public
  */
 
-module.exports = function vhost(hostname, handle) {
+function vhost(hostname, handle) {
   if (!hostname) {
     throw new TypeError('argument hostname is required')
   }
@@ -32,7 +39,7 @@ module.exports = function vhost(hostname, handle) {
   // create regular expression for hostname
   var regexp = hostregexp(hostname)
 
-  return function vhost(req, res, next){
+  return function vhost(req, res, next) {
     var vhostdata = vhostof(req, regexp)
 
     if (!vhostdata) {
@@ -44,8 +51,8 @@ module.exports = function vhost(hostname, handle) {
 
     // handle
     handle(req, res, next)
-  };
-};
+  }
+}
 
 /**
  * Get hostname of request.
@@ -55,7 +62,7 @@ module.exports = function vhost(hostname, handle) {
  * @private
  */
 
-function hostnameof(req){
+function hostnameof(req) {
   var host = req.headers.host
 
   if (!host) {
@@ -80,7 +87,7 @@ function hostnameof(req){
  * @private
  */
 
-function isregexp(val){
+function isregexp(val) {
   return Object.prototype.toString.call(val) === '[object RegExp]'
 }
 
@@ -91,7 +98,7 @@ function isregexp(val){
  * @private
  */
 
-function hostregexp(val){
+function hostregexp(val) {
   var source = !isregexp(val)
     ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '([^\.]+)')
     : val.source
@@ -102,7 +109,7 @@ function hostregexp(val){
   }
 
   // force trailing anchor matching
-  source = source.replace(/(\\*)(.)$/, function(s, b, c){
+  source = source.replace(/(\\*)(.)$/, function (s, b, c) {
     return c !== '$' || b.length % 2 === 1
       ? s + '$'
       : s
@@ -120,7 +127,7 @@ function hostregexp(val){
  * @private
  */
 
-function vhostof(req, regexp){
+function vhostof(req, regexp) {
   var host = req.headers.host
   var hostname = hostnameof(req)
 
