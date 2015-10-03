@@ -19,7 +19,11 @@ module.exports = vhost
  * @private
  */
 
+var asteriskRegExp = /\*/g
+var asteriskReplace = '([^\.]+)'
 var endAnchoredRegExp = /(?:^|[^\\])(?:\\\\)*\$$/
+var escapeRegExp = /([.+?^=!:${}()|\[\]\/\\])/g
+var escapeReplace = '\\$1'
 
 /**
  * Create a vhost middleware.
@@ -107,7 +111,7 @@ function isregexp(val) {
 
 function hostregexp(val) {
   var source = !isregexp(val)
-    ? String(val).replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '([^\.]+)')
+    ? String(val).replace(escapeRegExp, escapeReplace).replace(asteriskRegExp, asteriskReplace)
     : val.source
 
   // force leading anchor matching
