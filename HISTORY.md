@@ -1,5 +1,5 @@
-unreleased
-==========
+3.0.2 / 2015-10-12
+==================
 
   * perf: hoist regular expressions
   * perf: use single regular expression for anchor checking

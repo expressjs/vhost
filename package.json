@@ -1,7 +1,7 @@
 {
   "name": "vhost",
   "description": "virtual domain hosting",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
     "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)"
