@@ -209,7 +209,58 @@ describe('vhost(hostname, server)', function(){
       .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
+
+  describe('with array hostname', function(){
+    it('should match using an array of strings', function(done){
+      var domains = ['toki.com', 'www.toki.com', 'toki.org']
+
+      function next() {
+        if(domains.length) {
+          request(app)
+              .get('/')
+              .set('Host', domains.pop())
+              .expect(200, 'toki', done)
+        } else {
+          done()
+        }
+
+      }
+
+      var app = createServerArray(domains, function(req, res){
+        res.end('toki')
+      })
+
+      next()
+    })
+
+    it('should match using an array of RegEx\'s and strings', function(done){
+      var domains = ['toki.com', 'www.toki.com', 'toki.org', 'www.toki.org', 'tobi.com', 'tabbi.com']
+      var tests = [/(?:www|)\.toki\.(?:com|org)/, 'tobi.com', 'tabbi.com']
+
+      function next() {
+        if(domains.length) {
+          request(app)
+              .get('/')
+              .set('Host', domains.pop())
+              .expect(200, 'toki', done)
+        } else {
+          done()
+        }
+
+      }
+
+      var app = createServerArray(tests, function(req, res){
+        res.end('toki')
+      })
+
+      next()
+    })
+  })
 })
+
+function createServerArray(hostname, server) {
+  return createServer([vhost(hostname, server)])
+}
 
 function createServer(hostname, server) {
   var vhosts = !Array.isArray(hostname)

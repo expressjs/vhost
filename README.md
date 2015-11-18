@@ -24,10 +24,15 @@ Create a new middleware function to hand off request to `handle` when the incomi
 host for the request matches `hostname`. The function is called as
 `handle(req, res, next)`, like a standard middleware.
 
-`hostname` can be a string or a RegExp object. When `hostname` is a string it can
-contain `*` to match 1 or more characters in that section of the hostname. When
-`hostname` is a RegExp, it will be forced to case-insensitive (since hostnames are)
-and will be forced to match based on the start and end of the hostname.
+`hostname` can be a string, a RegExp object or any array containing either of
+these.
+* When `hostname` is a string it can contain `*` to match 1 or more
+characters in that section of the hostname.
+* When `hostname` is a RegExp, it will be forced to case-insensitive (since
+hostnames are) and will be forced to match based on the start and end of the
+hostname.
+* When `hostname` is an array, each item can be either an array or RegExp (as
+described above).  A domain match will be when one item array matches.
 
 When host is matched and the request is sent down to a vhost handler, the `req.vhost`
 property will be populated with an object. This object will have numeric properties

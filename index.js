@@ -103,26 +103,56 @@ function isregexp(val) {
 }
 
 /**
- * Generate RegExp for given hostname value.
+ * Determine if object is an array.
+ *
+ * @param (object} val
+ * @return {boolean}
+ * @private
+ */
+
+function isarray(val) {
+  return (Object.prototype.toString.call(val) === '[object Array]' );
+}
+
+
+/**
+ * Generate RegExp group for the supplied value.
+ *
+ * @param (string|RegExp} val
+ * @private
+ */
+
+function hostregexpgroup(val) {
+  var source = !isregexp(val)
+      ? String(val).replace(escapeRegExp, escapeReplace).replace(asteriskRegExp, asteriskReplace)
+      : val.source
+
+  // force leading anchor matching
+  if (source[0] === '^') {
+    source = source.slice(0, 1);
+  }
+
+  // force trailing anchor matching
+  if (endAnchoredRegExp.test(source)) {
+    source = source.slice(0, -1);
+  }
+
+  return '(?:' + source + ')';
+}
+
+/**
+ * Generate RegExp for given hostname(s) value.
  *
  * @param (string|RegExp} val
  * @private
  */
 
 function hostregexp(val) {
-  var source = !isregexp(val)
-    ? String(val).replace(escapeRegExp, escapeReplace).replace(asteriskRegExp, asteriskReplace)
-    : val.source
+  val = ((isarray(val))?val:[val]);
 
-  // force leading anchor matching
-  if (source[0] !== '^') {
-    source = '^' + source
-  }
-
-  // force trailing anchor matching
-  if (!endAnchoredRegExp.test(source)) {
-    source += '$'
-  }
+  var source = '^' + val.map(function(val) {
+    return hostregexpgroup(val);
+  }).join('|') + '$';
 
   return new RegExp(source, 'i')
 }
