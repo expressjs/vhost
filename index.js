@@ -19,11 +19,11 @@ module.exports = vhost
  * @private
  */
 
-var asteriskRegExp = /\*/g
-var asteriskReplace = '([^\.]+)'
-var endAnchoredRegExp = /(?:^|[^\\])(?:\\\\)*\$$/
-var escapeRegExp = /([.+?^=!:${}()|\[\]\/\\])/g
-var escapeReplace = '\\$1'
+var ASTERISK_REGEXP = /\*/g
+var ASTERISK_REPLACE = '([^.]+)'
+var END_ANCHORED_REGEXP = /(?:^|[^\\])(?:\\\\)*\$$/
+var ESCAPE_REGEXP = /([.+?^=!:${}()|\[\]\/\\])/g
+var ESCAPE_REPLACE = '\\$1'
 
 /**
  * Create a vhost middleware.
@@ -34,7 +34,7 @@ var escapeReplace = '\\$1'
  * @public
  */
 
-function vhost(hostname, handle) {
+function vhost (hostname, handle) {
   if (!hostname) {
     throw new TypeError('argument hostname is required')
   }
@@ -50,7 +50,7 @@ function vhost(hostname, handle) {
   // create regular expression for hostname
   var regexp = hostregexp(hostname)
 
-  return function vhost(req, res, next) {
+  return function vhost (req, res, next) {
     var vhostdata = vhostof(req, regexp)
 
     if (!vhostdata) {
@@ -73,7 +73,7 @@ function vhost(hostname, handle) {
  * @private
  */
 
-function hostnameof(req) {
+function hostnameof (req) {
   var host = req.headers.host
 
   if (!host) {
@@ -98,7 +98,7 @@ function hostnameof(req) {
  * @private
  */
 
-function isregexp(val) {
+function isregexp (val) {
   return Object.prototype.toString.call(val) === '[object RegExp]'
 }
 
@@ -109,9 +109,9 @@ function isregexp(val) {
  * @private
  */
 
-function hostregexp(val) {
+function hostregexp (val) {
   var source = !isregexp(val)
-    ? String(val).replace(escapeRegExp, escapeReplace).replace(asteriskRegExp, asteriskReplace)
+    ? String(val).replace(ESCAPE_REGEXP, ESCAPE_REPLACE).replace(ASTERISK_REGEXP, ASTERISK_REPLACE)
     : val.source
 
   // force leading anchor matching
@@ -120,7 +120,7 @@ function hostregexp(val) {
   }
 
   // force trailing anchor matching
-  if (!endAnchoredRegExp.test(source)) {
+  if (!END_ANCHORED_REGEXP.test(source)) {
     source += '$'
   }
 
@@ -136,7 +136,7 @@ function hostregexp(val) {
  * @private
  */
 
-function vhostof(req, regexp) {
+function vhostof (req, regexp) {
   var host = req.headers.host
   var hostname = hostnameof(req)
 
