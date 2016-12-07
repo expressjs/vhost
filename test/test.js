@@ -2,6 +2,7 @@
 var assert = require('assert')
 var http = require('http')
 var request = require('supertest')
+var connect = require('connect')
 var vhost = require('..')
 
 describe('vhost(hostname, server)', function () {
@@ -20,6 +21,46 @@ describe('vhost(hostname, server)', function () {
     .get('/')
     .set('Host', 'tobi.com')
     .expect(200, 'tobi', done)
+  })
+
+  it('should route by `req.hostname` (express v4)', function (done) {
+    var app = connect()
+
+    app.use(function (req, res, next) {
+      req.hostname = 'anotherhost.com'
+      return next()
+    })
+
+    app.use(vhost('anotherhost.com', anotherhost))
+    app.use(vhost('loki.com', loki))
+
+    function anotherhost (req, res) { res.end('anotherhost') }
+    function loki (req, res) { res.end('loki') }
+
+    request(app)
+    .get('/')
+    .set('Host', 'tobi.com')
+    .expect(200, 'anotherhost', done)
+  })
+
+  it('should route by `req.host` (express v3)', function (done) {
+    var app = connect()
+
+    app.use(function (req, res, next) {
+      req.host = 'anotherhost.com'
+      return next()
+    })
+
+    app.use(vhost('anotherhost.com', anotherhost))
+    app.use(vhost('loki.com', loki))
+
+    function anotherhost (req, res) { res.end('anotherhost') }
+    function loki (req, res) { res.end('loki') }
+
+    request(app)
+    .get('/')
+    .set('Host', 'tobi.com')
+    .expect(200, 'anotherhost', done)
   })
 
   it('should ignore port in Host', function (done) {
