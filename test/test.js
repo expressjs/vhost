@@ -1,8 +1,6 @@
-
 var assert = require('assert')
 var http = require('http')
 var request = require('supertest')
-var connect = require('connect')
 var vhost = require('..')
 
 describe('vhost(hostname, server)', function () {
@@ -24,15 +22,16 @@ describe('vhost(hostname, server)', function () {
   })
 
   it('should route by `req.hostname` (express v4)', function (done) {
-    var app = connect()
+    var vhosts = []
 
-    app.use(function (req, res, next) {
+    vhosts.push(vhost('anotherhost.com', anotherhost))
+    vhosts.push(vhost('loki.com', loki))
+
+    var app = createServer(vhosts)
+
+    app.on('request', function (req) {
       req.hostname = 'anotherhost.com'
-      return next()
     })
-
-    app.use(vhost('anotherhost.com', anotherhost))
-    app.use(vhost('loki.com', loki))
 
     function anotherhost (req, res) { res.end('anotherhost') }
     function loki (req, res) { res.end('loki') }
@@ -44,15 +43,16 @@ describe('vhost(hostname, server)', function () {
   })
 
   it('should route by `req.host` (express v3)', function (done) {
-    var app = connect()
+    var vhosts = []
 
-    app.use(function (req, res, next) {
+    vhosts.push(vhost('anotherhost.com', anotherhost))
+    vhosts.push(vhost('loki.com', loki))
+
+    var app = createServer(vhosts)
+
+    app.on('request', function (req) {
       req.host = 'anotherhost.com'
-      return next()
     })
-
-    app.use(vhost('anotherhost.com', anotherhost))
-    app.use(vhost('loki.com', loki))
 
     function anotherhost (req, res) { res.end('anotherhost') }
     function loki (req, res) { res.end('loki') }
@@ -272,6 +272,8 @@ function createServer (hostname, server) {
       vhost(req, res, next)
     }
 
-    next()
+    // Running tests on next tick so we can modify the request object via
+    // the `request` event on http.Server
+    process.nextTick(next)
   })
 }
