@@ -85,17 +85,6 @@ describe('vhost(hostname, server)', function () {
     .expect(200, 'loopback', done)
   })
 
-  it('should support IPv6 literal in Host with no port', function (done) {
-    var app = createServer('[::1]', function (req, res) {
-      res.end('loopback')
-    })
-
-    request(app)
-    .get('/')
-    .set('Host', '::1')
-    .expect(200, 'loopback', done)
-  })
-
   it('should support IPv6 literal in `req.host` with port (express v5)', function (done) {
     var app = createServer('[::1]', function (req, res) {
       res.end('loopback')
@@ -116,7 +105,7 @@ describe('vhost(hostname, server)', function () {
     })
 
     app.on('request', function (req) {
-      req.hostname = '::1'
+      req.hostname = '[::1]'
     })
 
     request(app)
@@ -130,7 +119,7 @@ describe('vhost(hostname, server)', function () {
     })
 
     app.on('request', function (req) {
-      req.host = '::1'
+      req.host = '[::1]'
     })
 
     request(app)
