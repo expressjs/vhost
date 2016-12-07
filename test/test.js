@@ -27,9 +27,7 @@ describe('vhost(hostname, server)', function () {
     vhosts.push(vhost('anotherhost.com', anotherhost))
     vhosts.push(vhost('loki.com', loki))
 
-    var app = createServer(vhosts)
-
-    app.on('request', function (req) {
+    var app = createServer(vhosts, null, function (req) {
       req.hostname = 'anotherhost.com'
     })
 
@@ -48,9 +46,7 @@ describe('vhost(hostname, server)', function () {
     vhosts.push(vhost('anotherhost.com', anotherhost))
     vhosts.push(vhost('loki.com', loki))
 
-    var app = createServer(vhosts)
-
-    app.on('request', function (req) {
+    var app = createServer(vhosts, null, function (req) {
       req.host = 'anotherhost.com'
     })
 
@@ -88,9 +84,7 @@ describe('vhost(hostname, server)', function () {
   it('should support IPv6 literal in `req.host` with port (express v5)', function (done) {
     var app = createServer('[::1]', function (req, res) {
       res.end('loopback')
-    })
-
-    app.on('request', function (req) {
+    }, function (req) {
       req.host = '[::1]:8080'
     })
 
@@ -102,9 +96,7 @@ describe('vhost(hostname, server)', function () {
   it('should support IPv6 literal in `req.hostname` (express v4)', function (done) {
     var app = createServer('[::1]', function (req, res) {
       res.end('loopback')
-    })
-
-    app.on('request', function (req) {
+    }, function (req) {
       req.hostname = '[::1]'
     })
 
@@ -116,9 +108,7 @@ describe('vhost(hostname, server)', function () {
   it('should support IPv6 literal in `req.host` without port (express v3)', function (done) {
     var app = createServer('[::1]', function (req, res) {
       res.end('loopback')
-    })
-
-    app.on('request', function (req) {
+    }, function (req) {
       req.host = '[::1]'
     })
 
@@ -294,12 +284,16 @@ describe('vhost(hostname, server)', function () {
   })
 })
 
-function createServer (hostname, server) {
+function createServer (hostname, server, pretest) {
   var vhosts = !Array.isArray(hostname)
     ? [vhost(hostname, server)]
     : hostname
 
-  return http.createServer(function onRequest (req, res) {
+  // This allows you to perform changes to the request/response
+  // objects before our assertions
+  pretest = pretest || function () {}
+
+  return http.createServer().on('request', pretest).on('request', function onRequest (req, res) {
     var index = 0
 
     function next (err) {
@@ -314,8 +308,6 @@ function createServer (hostname, server) {
       vhost(req, res, next)
     }
 
-    // Running tests on next tick so we can modify the request object via
-    // the `request` event on http.Server
-    process.nextTick(next)
+    next()
   })
 }
