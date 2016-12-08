@@ -289,11 +289,10 @@ function createServer (hostname, server, pretest) {
     ? [vhost(hostname, server)]
     : hostname
 
-  // This allows you to perform changes to the request/response
-  // objects before our assertions
-  pretest = pretest || function () {}
-
-  return http.createServer().on('request', pretest).on('request', function onRequest (req, res) {
+  return http.createServer(function onRequest (req, res) {
+    // This allows you to perform changes to the request/response
+    // objects before our assertions
+    if (pretest) pretest(req, res)
     var index = 0
 
     function next (err) {
