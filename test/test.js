@@ -197,7 +197,7 @@ describe('vhost(hostname, server)', function () {
     })
 
     it('should populate req.vhost', function (done) {
-      var app = createServer(/user-(bob|joe)\.([^\.]+)\.com/, function (req, res) {
+      var app = createServer(/user-(bob|joe)\.([^.]+)\.com/, function (req, res) {
         var keys = Object.keys(req.vhost).sort()
         var arr = keys.map(function (k) { return [k, req.vhost[k]] })
         res.end(JSON.stringify(arr))
