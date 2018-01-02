@@ -42,11 +42,11 @@ var app = connect()
 
 app.use(vhost('*.*.example.com', function handle (req, res, next) {
   // for match of "foo.bar.example.com:8080" against "*.*.example.com":
-  req.vhost.host === 'foo.bar.example.com:8080'
-  req.vhost.hostname === 'foo.bar.example.com'
-  req.vhost.length === 2
-  req.vhost[0] === 'foo'
-  req.vhost[1] === 'bar'
+  console.dir(req.vhost.host) // => 'foo.bar.example.com:8080'
+  console.dir(req.vhost.hostname) // => 'foo.bar.example.com'
+  console.dir(req.vhost.length) // => 2
+  console.dir(req.vhost[0]) // => 'foo'
+  console.dir(req.vhost[1]) // => 'bar'
 }))
 ```
 
