@@ -151,6 +151,10 @@ app.use(vhost('api.example.com', function (req, res) {
 app.listen(3000)
 ```
 
+### Typescript support
+
+Typescript defintions are included in npm package.
+
 ## License
 
 [MIT](LICENSE)
