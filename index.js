@@ -74,7 +74,7 @@ function vhost (hostname, handle) {
  */
 
 function hostnameof (req) {
-  var host = req.headers.host
+  var host = req.host
 
   if (!host) {
     return
@@ -137,7 +137,7 @@ function hostregexp (val) {
  */
 
 function vhostof (req, regexp) {
-  var host = req.headers.host
+  var host = req.host
   var hostname = hostnameof(req)
 
   if (!hostname) {
