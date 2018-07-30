@@ -4,6 +4,11 @@ var http = require('http')
 var request = require('supertest')
 var vhost = require('..')
 
+if (process.env.HTTP2_TEST) {
+  request.http2 = true;
+  http = require('http2')
+}
+
 describe('vhost(hostname, server)', function () {
   it('should route by Host', function (done) {
     var vhosts = []
