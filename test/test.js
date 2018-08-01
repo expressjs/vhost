@@ -5,7 +5,7 @@ var request = require('supertest')
 var vhost = require('..')
 
 if (process.env.HTTP2_TEST) {
-  request.http2 = true;
+  request.http2 = true
   http = require('http2')
 }
 
