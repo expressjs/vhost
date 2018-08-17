@@ -24,6 +24,8 @@ var ASTERISK_REPLACE = '([^.]+)'
 var END_ANCHORED_REGEXP = /(?:^|[^\\])(?:\\\\)*\$$/
 var ESCAPE_REGEXP = /([.+?^=!:${}()|[\]/\\])/g
 var ESCAPE_REPLACE = '\\$1'
+var MULTIPLE_REGEXP   = /\(\[\^\.\]\+\)\(\[\^\.\]\+\)\\\./g
+var MULTIPLE_REPLACE  = '(.+\\\.)?'
 
 /**
  * Create a vhost middleware.
@@ -111,7 +113,7 @@ function isregexp (val) {
 
 function hostregexp (val) {
   var source = !isregexp(val)
-    ? String(val).replace(ESCAPE_REGEXP, ESCAPE_REPLACE).replace(ASTERISK_REGEXP, ASTERISK_REPLACE)
+    ? String(val).replace(ESCAPE_REGEXP, ESCAPE_REPLACE).replace(ASTERISK_REGEXP, ASTERISK_REPLACE).replace(MULTIPLE_REGEXP, MULTIPLE_REPLACE)
     : val.source
 
   // force leading anchor matching
