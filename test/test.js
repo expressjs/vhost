@@ -1,11 +1,10 @@
 
 var assert = require('assert')
 var http = require('http')
-var request = require('supertest')
+var request = require('./support/supertest')
 var vhost = require('..')
 
 if (process.env.HTTP2_TEST) {
-  request.http2 = true
   http = require('http2')
 }
 
