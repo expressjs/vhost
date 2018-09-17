@@ -1,8 +1,12 @@
 
 var assert = require('assert')
 var http = require('http')
-var request = require('supertest')
+var request = require('./support/supertest')
 var vhost = require('..')
+
+if (process.env.HTTP2_TEST) {
+  http = require('http2')
+}
 
 describe('vhost(hostname, server)', function () {
   it('should route by Host', function (done) {

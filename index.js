@@ -74,7 +74,7 @@ function vhost (hostname, handle) {
  */
 
 function hostnameof (req) {
-  var host = req.headers.host
+  var host = ishttp2(req) ? req.headers[':authority'] : req.headers.host
 
   if (!host) {
     return
@@ -137,7 +137,7 @@ function hostregexp (val) {
  */
 
 function vhostof (req, regexp) {
-  var host = req.headers.host
+  var host = ishttp2(req) ? req.headers[':authority'] : req.headers.host
   var hostname = hostnameof(req)
 
   if (!hostname) {
@@ -161,4 +161,16 @@ function vhostof (req, regexp) {
   }
 
   return obj
+}
+
+/**
+ * Check if a request is a http2 request.
+ *
+ * @param {Object} request
+ * @return {Boolean}
+ * @public
+ */
+
+function ishttp2 (req) {
+  return req.httpVersionMajor === 2
 }

@@ -18,7 +18,7 @@
     "eslint-plugin-standard": "3.0.1",
     "istanbul": "0.4.5",
     "mocha": "2.5.3",
-    "supertest": "1.1.0"
+    "supertest": "2.0"
   },
   "files": [
     "LICENSE",
@@ -31,6 +31,7 @@
   "scripts": {
     "lint": "eslint --plugin markdown --ext js,md .",
     "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-http2": "HTTP2_TEST=1 mocha --reporter spec --bail --check-leaks test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
   }
