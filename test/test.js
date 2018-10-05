@@ -55,7 +55,7 @@ describe('vhost(hostname, server)', function () {
     function tobi (req, res) { res.end('tobi') }
     function loki (req, res) { res.end('loki') }
 
-    request(app.listen())
+    request(app)
       .get('/')
       .set('Host', 'ferrets.com')
       .expect(404, done)
@@ -72,7 +72,7 @@ describe('vhost(hostname, server)', function () {
     function tobi (req, res) { res.end('tobi') }
     function loki (req, res) { res.end('loki') }
 
-    request(app.listen())
+    request(app)
       .get('/')
       .unset('Host')
       .expect(404, done)
