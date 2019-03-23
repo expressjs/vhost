@@ -67,15 +67,19 @@ describe('vhost(hostname, server)', function () {
     vhosts.push(vhost('tobi.com', tobi))
     vhosts.push(vhost('loki.com', loki))
 
-    var app = createServer(vhosts)
+    var server = createServer(vhosts)
+    var listeners = server.listeners('request')
+
+    server.removeAllListeners('request')
+    listeners.unshift(function (req) { req.headers.host = undefined })
+    listeners.forEach(function (l) { server.addListener('request', l) })
 
     function tobi (req, res) { res.end('tobi') }
     function loki (req, res) { res.end('loki') }
 
-    request(app)
+    request(server)
       .get('/')
-      .unset('Host')
-      .expect(404, done)
+      .expect(404, 'no vhost for "undefined"', done)
   })
 
   describe('arguments', function () {
@@ -224,7 +228,7 @@ function createServer (hostname, server) {
 
       if (!vhost || err) {
         res.statusCode = err ? (err.status || 500) : 404
-        res.end(err ? err.message : 'oops')
+        res.end(err ? err.message : 'no vhost for "' + req.headers.host + '"')
         return
       }
 
