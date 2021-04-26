@@ -54,7 +54,9 @@ function vhost (hostname, handle) {
     var vhostdata = vhostof(req, regexp)
 
     if (!vhostdata) {
-      return next()
+      return process.nextTick(function() {
+        return next();
+      })
     }
 
     // populate
