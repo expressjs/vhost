@@ -54,9 +54,11 @@ jobs:
 
         - name: Node.js 4.x
           node-version: "4.9"
+          npm-i: mocha@5.2.0
 
         - name: Node.js 5.x
           node-version: "5.12"
+          npm-i: mocha@5.2.0
 
         - name: Node.js 6.x
           node-version: "6.16"
