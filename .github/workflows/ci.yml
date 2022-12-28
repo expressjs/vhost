@@ -77,7 +77,7 @@ jobs:
           node-version: "11.12"
 
         - name: Node.js 12.x
-          node-version: "12.3"
+          node-version: "12.22"
 
     steps:
     - uses: actions/checkout@v3
