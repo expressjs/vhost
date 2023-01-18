@@ -13,8 +13,6 @@ $ npm install vhost
 
 ## API
 
-<!-- eslint-disable no-unused-vars -->
-
 ```js
 var vhost = require('vhost')
 ```
