@@ -159,5 +159,5 @@ app.listen(3000)
 [coveralls-url]: https://coveralls.io/r/expressjs/vhost
 [downloads-image]: https://img.shields.io/npm/dm/vhost.svg
 [downloads-url]: https://npmjs.org/package/vhost
-[github-actions-ci-image]: https://img.shields.io/github/workflow/status/expressjs/vhost/ci/master?label=ci
+[github-actions-ci-image]: https://img.shields.io/github/actions/workflow/status/expressjs/vhost/ci.yml?branch=master&label=ci
 [github-actions-ci-url]: https://github.com/expressjs/vhost/actions/workflows/ci.yml
