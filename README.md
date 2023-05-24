@@ -2,9 +2,8 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][github-actions-ci-image]][github-actions-ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
-[![Gratipay][gratipay-image]][gratipay-url]
 
 ## Install
 
@@ -40,12 +39,18 @@ If you're running an express v3 server, this comes from [`req.host`](http://expr
 If you're running an express v4 server, this comes from [`req.hostname`](http://expressjs.com/en/4x/api.html#req.hostname).
 
 ```js
-// for match of "foo.bar.example.com:8080" against "*.*.example.com":
-req.vhost.host === 'foo.bar.example.com:8080'
-req.vhost.hostname === 'foo.bar.example.com'
-req.vhost.length === 2
-req.vhost[0] === 'foo'
-req.vhost[1] === 'bar'
+var connect = require('connect')
+var vhost = require('vhost')
+var app = connect()
+
+app.use(vhost('*.*.example.com', function handle (req, res, next) {
+  // for match of "foo.bar.example.com:8080" against "*.*.example.com":
+  console.dir(req.vhost.host) // => 'foo.bar.example.com:8080'
+  console.dir(req.vhost.hostname) // => 'foo.bar.example.com'
+  console.dir(req.vhost.length) // => 2
+  console.dir(req.vhost[0]) // => 'foo'
+  console.dir(req.vhost[1]) // => 'bar'
+}))
 ```
 
 ## Examples
@@ -155,11 +160,9 @@ app.listen(3000)
 
 [npm-image]: https://img.shields.io/npm/v/vhost.svg
 [npm-url]: https://npmjs.org/package/vhost
-[travis-image]: https://img.shields.io/travis/expressjs/vhost/master.svg
-[travis-url]: https://travis-ci.org/expressjs/vhost
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/vhost/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/vhost
 [downloads-image]: https://img.shields.io/npm/dm/vhost.svg
 [downloads-url]: https://npmjs.org/package/vhost
-[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
-[gratipay-url]: https://gratipay.com/dougwilson/
+[github-actions-ci-image]: https://img.shields.io/github/actions/workflow/status/expressjs/vhost/ci.yml?branch=master&label=ci
+[github-actions-ci-url]: https://github.com/expressjs/vhost/actions/workflows/ci.yml

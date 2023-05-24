@@ -16,9 +16,9 @@ describe('vhost(hostname, server)', function () {
     function loki (req, res) { res.end('loki') }
 
     request(app)
-    .get('/')
-    .set('Host', 'tobi.com')
-    .expect(200, 'tobi', done)
+      .get('/')
+      .set('Host', 'tobi.com')
+      .expect(200, 'tobi', done)
   })
 
   it('should route by `req.hostname` (express v4)', function (done) {
@@ -65,9 +65,9 @@ describe('vhost(hostname, server)', function () {
     })
 
     request(app)
-    .get('/')
-    .set('Host', 'tobi.com:8080')
-    .expect(200, 'tobi', done)
+      .get('/')
+      .set('Host', 'tobi.com:8080')
+      .expect(200, 'tobi', done)
   })
 
   it('should support IPv6 literal in Host', function (done) {
@@ -76,9 +76,9 @@ describe('vhost(hostname, server)', function () {
     })
 
     request(app)
-    .get('/')
-    .set('Host', '[::1]:8080')
-    .expect(200, 'loopback', done)
+      .get('/')
+      .set('Host', '[::1]:8080')
+      .expect(200, 'loopback', done)
   })
 
   it('should support IPv6 literal in `req.host` with port (express v5)', function (done) {
@@ -128,10 +128,10 @@ describe('vhost(hostname, server)', function () {
     function tobi (req, res) { res.end('tobi') }
     function loki (req, res) { res.end('loki') }
 
-    request(app.listen())
-    .get('/')
-    .set('Host', 'ferrets.com')
-    .expect(404, done)
+    request(app)
+      .get('/')
+      .set('Host', 'ferrets.com')
+      .expect(404, done)
   })
 
   it('should 404 without Host header', function (done) {
@@ -140,15 +140,19 @@ describe('vhost(hostname, server)', function () {
     vhosts.push(vhost('tobi.com', tobi))
     vhosts.push(vhost('loki.com', loki))
 
-    var app = createServer(vhosts)
+    var server = createServer(vhosts)
+    var listeners = server.listeners('request')
+
+    server.removeAllListeners('request')
+    listeners.unshift(function (req) { req.headers.host = undefined })
+    listeners.forEach(function (l) { server.addListener('request', l) })
 
     function tobi (req, res) { res.end('tobi') }
     function loki (req, res) { res.end('loki') }
 
-    request(app.listen())
-    .get('/')
-    .unset('Host')
-    .expect(404, done)
+    request(server)
+      .get('/')
+      .expect(404, 'no vhost for "undefined"', done)
   })
 
   describe('arguments', function () {
@@ -188,9 +192,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'loki.ferrets.com')
-      .expect(200, 'wildcard!', done)
+        .get('/')
+        .set('Host', 'loki.ferrets.com')
+        .expect(200, 'wildcard!', done)
     })
 
     it('should restrict wildcards to single part', function (done) {
@@ -199,9 +203,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'foo.loki.ferrets.com')
-      .expect(404, done)
+        .get('/')
+        .set('Host', 'foo.loki.ferrets.com')
+        .expect(404, done)
     })
 
     it('should treat dot as a dot', function (done) {
@@ -210,9 +214,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'aXb.com')
-      .expect(404, done)
+        .get('/')
+        .set('Host', 'aXb.com')
+        .expect(404, done)
     })
 
     it('should match entire string', function (done) {
@@ -221,9 +225,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'foo.com')
-      .expect(404, done)
+        .get('/')
+        .set('Host', 'foo.com')
+        .expect(404, done)
     })
 
     it('should populate req.vhost', function (done) {
@@ -234,9 +238,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'user-bob.foo.com:8080')
-      .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
+        .get('/')
+        .set('Host', 'user-bob.foo.com:8080')
+        .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
 
@@ -247,9 +251,9 @@ describe('vhost(hostname, server)', function () {
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'toki.com')
-      .expect(200, 'tobi', done)
+        .get('/')
+        .set('Host', 'toki.com')
+        .expect(200, 'tobi', done)
     })
 
     it('should match entire hostname', function (done) {
@@ -264,22 +268,22 @@ describe('vhost(hostname, server)', function () {
       function loki (req, res) { res.end('loki') }
 
       request(app)
-      .get('/')
-      .set('Host', 'loki.tobi.com')
-      .expect(404, done)
+        .get('/')
+        .set('Host', 'loki.tobi.com')
+        .expect(404, done)
     })
 
     it('should populate req.vhost', function (done) {
-      var app = createServer(/user-(bob|joe)\.([^\.]+)\.com/, function (req, res) {
+      var app = createServer(/user-(bob|joe)\.([^.]+)\.com/, function (req, res) {
         var keys = Object.keys(req.vhost).sort()
         var arr = keys.map(function (k) { return [k, req.vhost[k]] })
         res.end(JSON.stringify(arr))
       })
 
       request(app)
-      .get('/')
-      .set('Host', 'user-bob.foo.com:8080')
-      .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
+        .get('/')
+        .set('Host', 'user-bob.foo.com:8080')
+        .expect(200, '[["0","bob"],["1","foo"],["host","user-bob.foo.com:8080"],["hostname","user-bob.foo.com"],["length",2]]', done)
     })
   })
 })
@@ -300,7 +304,7 @@ function createServer (hostname, server, pretest) {
 
       if (!vhost || err) {
         res.statusCode = err ? (err.status || 500) : 404
-        res.end(err ? err.message : 'oops')
+        res.end(err ? err.message : 'no vhost for "' + req.headers.host + '"')
         return
       }
 

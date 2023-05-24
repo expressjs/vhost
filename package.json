@@ -9,13 +9,16 @@
   "license": "MIT",
   "repository": "expressjs/vhost",
   "devDependencies": {
-    "eslint": "2.11.1",
-    "eslint-config-standard": "5.3.1",
-    "eslint-plugin-promise": "1.3.1",
-    "eslint-plugin-standard": "1.3.2",
-    "istanbul": "0.4.3",
-    "mocha": "2.5.3",
-    "supertest": "1.1.0"
+    "eslint": "8.32.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-markdown": "3.0.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-standard": "4.1.0",
+    "mocha": "9.2.2",
+    "nyc": "15.1.0",
+    "supertest": "6.3.3"
   },
   "files": [
     "LICENSE",
@@ -26,9 +29,9 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "lint": "eslint **/*.js",
+    "lint": "eslint .",
     "test": "mocha --reporter spec --bail --check-leaks test/",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+    "test-ci": "nyc --reporter=lcovonly --reporter=text npm test",
+    "test-cov": "nyc --reporter=html --reporter=text npm test"
   }
 }

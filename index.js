@@ -22,7 +22,7 @@ module.exports = vhost
 var ASTERISK_REGEXP = /\*/g
 var ASTERISK_REPLACE = '([^.]+)'
 var END_ANCHORED_REGEXP = /(?:^|[^\\])(?:\\\\)*\$$/
-var ESCAPE_REGEXP = /([.+?^=!:${}()|\[\]\/\\])/g
+var ESCAPE_REGEXP = /([.+?^=!:${}()|[\]/\\])/g
 var ESCAPE_REPLACE = '\\$1'
 
 /**
