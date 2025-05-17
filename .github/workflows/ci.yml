@@ -207,24 +207,28 @@ jobs:
   coverage:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-    - name: Install lcov
-      shell: bash
-      run: sudo apt-get -y install lcov
+      - name: Install lcov
+        shell: bash
+        run: sudo apt-get -y install lcov
 
-    - name: Collect coverage reports
-      uses: actions/download-artifact@v3
-      with:
-        name: coverage
-        path: ./coverage
+      - name: Collect coverage reports
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
 
-    - name: Merge coverage reports
-      shell: bash
-      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+      - name: Merge coverage reports
+        shell: bash
+        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
-    - name: Upload coverage report
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload coverage report
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
+        with:
+          file: ./coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
