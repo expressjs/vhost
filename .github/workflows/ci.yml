@@ -5,6 +5,22 @@ on:
 - push
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --include=dev
+
+      - name: Run lint
+        run: node --run lint # Use `node --run` to run the script in package.json
+
   test:
     runs-on: ubuntu-20.04
     strategy:
@@ -170,10 +186,6 @@ jobs:
         else
           npm test
         fi
-
-    - name: Lint code
-      if: steps.list_env.outputs.eslint != ''
-      run: npm run lint
 
     - name: Collect code coverage
       if: steps.list_env.outputs.nyc != ''
