@@ -51,21 +51,6 @@ jobs:
       run: npm install --save-dev ${{ matrix.npm-i }}
       if: matrix.npm-i != ''
 
-    - name: Remove non-test dependencies
-      run: npm rm --silent --save-dev connect-redis
-
-    - name: Install Node.js dependencies
-      run: npm install
-
-    - name: List environment
-      id: list_env
-      shell: bash
-      run: |
-        echo "node@$(node -v)"
-        echo "npm@$(npm -v)"
-        npm -s ls ||:
-        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print $2 "=" $3 }' >> "$GITHUB_OUTPUT"
-
     - name: Run tests
       shell: bash
       run: npm run test
