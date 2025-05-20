@@ -43,6 +43,7 @@ jobs:
         run: node --run lint # Use `node --run` to run the script in package.json
 
   test:
+    name: Test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -259,6 +260,7 @@ jobs:
         retention-days: 1
 
   coverage:
+    name: Coverage
     needs: test
     runs-on: ubuntu-latest
     permissions:
