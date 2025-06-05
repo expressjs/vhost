@@ -1,4 +1,3 @@
-
 var assert = require('assert')
 var http = require('http')
 var request = require('supertest')
@@ -22,6 +21,44 @@ describe('vhost(hostname, server)', function () {
       .expect(200, 'tobi', done)
   })
 
+  it('should route by `req.hostname` (express v4)', function (done) {
+    var vhosts = []
+
+    vhosts.push(vhost('anotherhost.com', anotherhost))
+    vhosts.push(vhost('loki.com', loki))
+
+    var app = createServer(vhosts, null, function (req) {
+      req.hostname = 'anotherhost.com'
+    })
+
+    function anotherhost (req, res) { res.end('anotherhost') }
+    function loki (req, res) { res.end('loki') }
+
+    request(app)
+    .get('/')
+    .set('Host', 'tobi.com')
+    .expect(200, 'anotherhost', done)
+  })
+
+  it('should route by `req.host` (express v3)', function (done) {
+    var vhosts = []
+
+    vhosts.push(vhost('anotherhost.com', anotherhost))
+    vhosts.push(vhost('loki.com', loki))
+
+    var app = createServer(vhosts, null, function (req) {
+      req.host = 'anotherhost.com'
+    })
+
+    function anotherhost (req, res) { res.end('anotherhost') }
+    function loki (req, res) { res.end('loki') }
+
+    request(app)
+    .get('/')
+    .set('Host', 'tobi.com')
+    .expect(200, 'anotherhost', done)
+  })
+
   it('should ignore port in Host', function (done) {
     var app = createServer('tobi.com', function (req, res) {
       res.end('tobi')
@@ -42,6 +79,42 @@ describe('vhost(hostname, server)', function () {
       .get('/')
       .set('Host', '[::1]:8080')
       .expect(200, 'loopback', done)
+  })
+
+  it('should support IPv6 literal in `req.host` with port (express v5)', function (done) {
+    var app = createServer('[::1]', function (req, res) {
+      res.end('loopback')
+    }, function (req) {
+      req.host = '[::1]:8080'
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'loopback', done)
+  })
+
+  it('should support IPv6 literal in `req.hostname` (express v4)', function (done) {
+    var app = createServer('[::1]', function (req, res) {
+      res.end('loopback')
+    }, function (req) {
+      req.hostname = '[::1]'
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'loopback', done)
+  })
+
+  it('should support IPv6 literal in `req.host` without port (express v3)', function (done) {
+    var app = createServer('[::1]', function (req, res) {
+      res.end('loopback')
+    }, function (req) {
+      req.host = '[::1]'
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'loopback', done)
   })
 
   it('should 404 unless matched', function (done) {
@@ -215,12 +288,15 @@ describe('vhost(hostname, server)', function () {
   })
 })
 
-function createServer (hostname, server) {
+function createServer (hostname, server, pretest) {
   var vhosts = !Array.isArray(hostname)
     ? [vhost(hostname, server)]
     : hostname
 
   return http.createServer(function onRequest (req, res) {
+    // This allows you to perform changes to the request/response
+    // objects before our assertions
+    if (pretest) pretest(req, res)
     var index = 0
 
     function next (err) {

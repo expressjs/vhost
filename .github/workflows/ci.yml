@@ -99,7 +99,7 @@ jobs:
         - name: Node.js 13.x
           node-version: "13.14"
 
-        - name: Node.js 13.x
+        - name: Node.js 14.x
           node-version: "14.21"
 
         - name: Node.js 15.x
