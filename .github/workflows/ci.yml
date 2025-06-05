@@ -25,6 +25,9 @@ concurrency:
 permissions:
   contents: read
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: Lint
@@ -265,11 +268,11 @@ jobs:
 
   coverage:
     name: Coverage
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
     needs: test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
