@@ -242,7 +242,7 @@ jobs:
         run: |
           if npm -ps ls nyc | grep -q nyc; then
             npm run test-ci
-            cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
+            cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
           else
             npm test
           fi
@@ -251,17 +251,17 @@ jobs:
         if: steps.list_env.outputs.nyc != ''
         run: |
           if [[ -d ./coverage ]]; then
-            mv ./coverage "./${{ matrix.name }}"
+            mv ./coverage "./${{ matrix.node-version }}"
             mkdir ./coverage
-            mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
+            mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
           fi
 
       - name: Upload code coverage
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: steps.list_env.outputs.nyc != ''
         with:
-          name: coverage-${{ strategy.job-index }} # to avoid conflicts
-          path: ./coverage
+          name: coverage-${{ matrix.node-version }} # to avoid conflicts
+          path: "./coverage/${{ matrix.node-version }}"
           retention-days: 1
 
   coverage:
@@ -283,7 +283,6 @@ jobs:
       - name: Collect coverage reports
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
-          pattern: coverage-* # download all coverage artifacts
           path: ./coverage
 
       - name: Merge coverage reports
