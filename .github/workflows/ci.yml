@@ -7,10 +7,6 @@ on:
     paths-ignore:
       - "*.md"
   pull_request:
-    types:
-      - opened
-      - edited # in case of base branch change
-      - synchronize
     branches:
       - "**"
     paths-ignore:
