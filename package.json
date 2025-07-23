@@ -8,6 +8,10 @@
   ],
   "license": "MIT",
   "repository": "expressjs/vhost",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
   "devDependencies": {
     "eslint": "8.32.0",
     "eslint-config-standard": "14.1.1",
