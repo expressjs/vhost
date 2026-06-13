@@ -1,7 +1,7 @@
 {
   "name": "vhost",
   "description": "virtual domain hosting",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
     "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)"
@@ -12,34 +12,46 @@
     "type": "opencollective",
     "url": "https://opencollective.com/express"
   },
-  "devDependencies": {
-    "eslint": "8.57.1",
-    "eslint-config-standard": "14.1.1",
-    "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-markdown": "3.0.1",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "6.6.0",
-    "eslint-plugin-standard": "4.1.0",
-    "mocha": "9.2.2",
-    "nyc": "15.1.0",
-    "supertest": "6.3.4"
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
+  "types": "./dist/index.d.ts",
   "files": [
     "LICENSE",
     "README.md",
-    "index.js"
+    "dist"
   ],
   "publishConfig": {
     "provenance": true
   },
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.13.1",
+    "c8": "^10.1.3",
+    "eslint": "^9.39.4",
+    "globals": "^17.6.0",
+    "supertest": "^7.2.2",
+    "tinybench": "^3.1.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.61.0"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
     "lint": "eslint .",
-    "test": "mocha --reporter spec --bail --check-leaks test/",
-    "test-ci": "nyc --reporter=lcovonly --reporter=text npm test",
-    "test-cov": "nyc --reporter=html --reporter=text npm test"
+    "test": "node --test --test-force-exit \"test/**/*.mjs\"",
+    "test-cov": "c8 --reporter=text --reporter=html node --test --test-force-exit \"test/**/*.mjs\"",
+    "test-ci": "c8 --reporter=lcovonly --reporter=text node --test --test-force-exit \"test/**/*.mjs\"",
+    "bench": "node bench/index.mjs",
+    "bench:matrix": "node bench/run-matrix.mjs 8 10000 100000 1000000",
+    "bench:collect": "node bench/collect.mjs 25 10000 100000 1000000"
   },
   "homepage": "https://github.com/expressjs/vhost",
   "bugs": {
