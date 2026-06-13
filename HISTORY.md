@@ -1,3 +1,13 @@
+4.0.0 / 2026-06-10
+==================
+
+  * Rewrite in TypeScript; ship ESM only with bundled type declarations
+  * Drop support for Node.js below 24; require Node.js 24 or newer
+  * **Breaking:** package is now ESM (`import vhost from 'vhost'`); `require()` is
+    no longer supported
+  * perf: fast path for static (non-wildcard) hostnames avoids capture allocation
+  * No change to matching behavior or the `req.vhost` contract
+
 3.0.2 / 2015-10-12
 ==================
 
