@@ -31,6 +31,12 @@ contain `*` to match 1 or more characters in that section of the hostname. When
 `hostname` is a RegExp, it will be forced to case-insensitive (since hostnames are)
 and will be forced to match based on the start and end of the hostname.
 
+The host used for matching is `req.hostname` when the framework provides one
+(Express 5 populates it, respecting `trust proxy` so hosts forwarded through a
+reverse proxy via `X-Forwarded-Host` are honored), otherwise the raw
+[`Host` header](https://nodejs.org/dist/latest/docs/api/http.html#messageheaders)
+(plain Node.js / connect servers).
+
 When host is matched and the request is sent down to a vhost handler, the `req.vhost`
 property will be populated with an object. This object will have numeric properties
 corresponding to each wildcard (or capture group if RegExp object provided) and the

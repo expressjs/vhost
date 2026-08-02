@@ -12,9 +12,12 @@
  * Numeric keys `0..length-1` hold the captured wildcard / RegExp group values.
  */
 export interface VHost {
-  /** The raw `Host` header, including the port if one was present. */
+  /**
+   * The host value the request was routed by: `req.hostname` when the
+   * framework provided one, otherwise the raw `Host` header (port included).
+   */
   host: string
-  /** The `Host` header with any port stripped. */
+  /** The routed host with any port stripped. */
   hostname: string
   /** The number of captured wildcards / RegExp groups. */
   length: number
@@ -29,6 +32,12 @@ export interface VHost {
  */
 export interface VHostRequest {
   headers: { host?: string | undefined }
+  /**
+   * Framework-resolved hostname, e.g. Express 5's `req.hostname`. When present
+   * it takes precedence over the `Host` header, so the middleware works behind
+   * reverse proxies when `trust proxy` resolves `X-Forwarded-Host`.
+   */
+  hostname?: string | undefined
   vhost?: VHost
 }
 
@@ -103,7 +112,7 @@ export default function vhost<Req extends VHostRequest = VHostRequest, Res = unk
       : (name: string): boolean => regexp.test(name)
 
     return function vhost (req, res, next) {
-      const host = req.headers.host
+      const host = hostof(req)
 
       if (!host) {
         return next()
@@ -142,7 +151,7 @@ export default function vhost<Req extends VHostRequest = VHostRequest, Res = unk
     const minLen = hostname.length
 
     return function vhost (req, res, next) {
-      const host = req.headers.host
+      const host = hostof(req)
 
       if (!host) {
         return next()
@@ -167,7 +176,7 @@ export default function vhost<Req extends VHostRequest = VHostRequest, Res = unk
 
   // RegExp hostname: unchanged regex path.
   return function vhost (req, res, next) {
-    const host = req.headers.host
+    const host = hostof(req)
 
     if (!host) {
       return next()
@@ -191,8 +200,19 @@ export default function vhost<Req extends VHostRequest = VHostRequest, Res = unk
 }
 
 /**
+ * Get the host value to route by: the framework-resolved `req.hostname`
+ * (Express 5, respects `trust proxy` / `X-Forwarded-Host`) when present,
+ * otherwise the raw `Host` header.
+ */
+function hostof (req: VHostRequest): string | undefined {
+  return req.hostname || req.headers.host
+}
+
+/**
  * Get the hostname (port stripped) from a raw `Host` header value, handling
- * IPv6 literals such as `[::1]:8080`.
+ * IPv6 literals such as `[::1]:8080`. Values from `req.hostname` are already
+ * port-free (and IPv6 literals stay bracketed), so re-parsing them here is a
+ * no-op.
  */
 function hostnameof (host: string): string | undefined {
   if (!host) {

@@ -160,6 +160,127 @@ describe('vhost(hostname, server)', function () {
       .expect(200, 'undefined', done)
   })
 
+  describe('with req.hostname (express 5 / reverse proxy)', function () {
+    it('should route by req.hostname over the Host header', function (_, done) {
+      var vhosts = []
+
+      vhosts.push(vhost('proxied.com', proxied))
+      vhosts.push(vhost('direct.com', direct))
+
+      var app = createServer(vhosts, null, function (req) {
+        // what express 5 provides with `trust proxy` from X-Forwarded-Host
+        req.hostname = 'proxied.com'
+      })
+
+      function proxied (req, res) { res.end('proxied') }
+      function direct (req, res) { res.end('direct') }
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com')
+        .expect(200, 'proxied', done)
+    })
+
+    it('should reflect the routed value on req.vhost.host and hostname', function (_, done) {
+      var app = createServer('proxied.com', function (req, res) {
+        res.end(JSON.stringify({ host: req.vhost.host, hostname: req.vhost.hostname }))
+      }, function (req) {
+        req.hostname = 'proxied.com'
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com:8080')
+        .expect(200, '{"host":"proxied.com","hostname":"proxied.com"}', done)
+    })
+
+    it('should match a wildcard against req.hostname and capture from it', function (_, done) {
+      var app = createServer('*.proxied.com', function (req, res) {
+        res.end(JSON.stringify([req.vhost.length, req.vhost[0], req.vhost.hostname]))
+      }, function (req) {
+        req.hostname = 'foo.proxied.com'
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com')
+        .expect(200, '[1,"foo","foo.proxied.com"]', done)
+    })
+
+    it('should match a RegExp against req.hostname', function (_, done) {
+      var app = createServer(/user-(bob|joe)\.proxied\.com/, function (req, res) {
+        res.end(JSON.stringify([req.vhost.length, req.vhost[0]]))
+      }, function (req) {
+        req.hostname = 'user-bob.proxied.com'
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com')
+        .expect(200, '[1,"bob"]', done)
+    })
+
+    it('should 404 when req.hostname does not match', function (_, done) {
+      var app = createServer('proxied.com', function (req, res) {
+        res.end('proxied')
+      }, function (req) {
+        // Host header would match, but the resolved hostname wins
+        req.hostname = 'other.com'
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'proxied.com')
+        .expect(404, done)
+    })
+
+    it('should fall back to the Host header when req.hostname is empty', function (_, done) {
+      var app = createServer('direct.com', function (req, res) {
+        res.end('direct')
+      }, function (req) {
+        req.hostname = ''
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com')
+        .expect(200, 'direct', done)
+    })
+
+    it('should not re-strip a portless IPv6 req.hostname', function (_, done) {
+      // req.hostname is already port-free; re-parsing the bracketed literal
+      // must be a no-op, not mangle it to an empty string
+      var app = createServer('[::1]', function (req, res) {
+        res.end(JSON.stringify({ host: req.vhost.host, hostname: req.vhost.hostname }))
+      }, function (req) {
+        req.hostname = '[::1]'
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'direct.com:8080')
+        .expect(200, '{"host":"[::1]","hostname":"[::1]"}', done)
+    })
+
+    it('should call next() when neither req.hostname nor Host is present', function (_, done) {
+      var app = http.createServer(function onRequest (req, res) {
+        req.headers.host = undefined
+
+        var mw = vhost('proxied.com', function (req, res) {
+          res.end('handled')
+        })
+
+        mw(req, res, function () {
+          res.end('next:' + String(req.vhost))
+        })
+      })
+
+      request(app)
+        .get('/')
+        .expect(200, 'next:undefined', done)
+    })
+  })
+
   describe('arguments', function () {
     describe('hostname', function () {
       it('should be required', function () {
@@ -699,12 +820,16 @@ describe('vhost(hostname, server)', function () {
   })
 })
 
-function createServer (hostname, server) {
+function createServer (hostname, server, pretest) {
   var vhosts = !Array.isArray(hostname)
     ? [vhost(hostname, server)]
     : hostname
 
   return http.createServer(function onRequest (req, res) {
+    // allows changes to the request/response objects before the middleware,
+    // e.g. simulating the `req.hostname` an Express 5 app would provide
+    if (pretest) pretest(req, res)
+
     var index = 0
 
     function next (err) {

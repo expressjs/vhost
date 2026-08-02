@@ -1,6 +1,9 @@
 4.0.0 / 2026-06-10
 ==================
 
+  * Match against `req.hostname` when present (Express 5), falling back to the
+    `Host` header, so routing works behind reverse proxies with `trust proxy`
+    (#20); `req.vhost.host` reflects the value routing actually used
   * Rewrite in TypeScript; ship ESM only with bundled type declarations
   * Drop support for Node.js below 24; require Node.js 24 or newer
   * **Breaking:** package is now ESM (`import vhost from 'vhost'`); `require()` is
