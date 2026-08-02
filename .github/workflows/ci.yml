@@ -27,266 +27,50 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: "lts/*"
+          node-version: "24"
 
       - name: Install dependencies
-        run: npm install --ignore-scripts --include=dev
+        run: npm install --include=dev
 
       - name: Run lint
         run: node --run lint # Use `node --run` to run the script in package.json
 
   test:
-    name: Test
+    name: Test (Node.js ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        name:
-          - Node.js 0.8
-          - Node.js 0.10
-          - Node.js 0.12
-          - io.js 1.x
-          - io.js 2.x
-          - io.js 3.x
-          - Node.js 4.x
-          - Node.js 5.x
-          - Node.js 6.x
-          - Node.js 7.x
-          - Node.js 8.x
-          - Node.js 9.x
-          - Node.js 10.x
-          - Node.js 11.x
-          - Node.js 12.x
-          - Node.js 13.x
-          - Node.js 14.x
-          - Node.js 15.x
-          - Node.js 16.x
-          - Node.js 17.x
-          - Node.js 18.x
-          - Node.js 19.x
-          - Node.js 20.x
-          - Node.js 21.x
-          - Node.js 22.x
-          - Node.js 23.x
-          - Node.js 24.x
-
-        include:
-          - name: Node.js 0.8
-            node-version: "0.8"
-            npm-i: mocha@2.5.3 supertest@1.1.0
-            npm-rm: nyc
-
-          - name: Node.js 0.10
-            node-version: "0.10"
-            npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
-
-          - name: Node.js 0.12
-            node-version: "0.12"
-            npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
-
-          - name: io.js 1.x
-            node-version: "1.8"
-            npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
-
-          - name: io.js 2.x
-            node-version: "2.5"
-            npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
-
-          - name: io.js 3.x
-            node-version: "3.3"
-            npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
-
-          - name: Node.js 4.x
-            node-version: "4"
-            npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
-
-          - name: Node.js 5.x
-            node-version: "5"
-            npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
-
-          - name: Node.js 6.x
-            node-version: "6"
-            npm-i: mocha@6.2.3 nyc@14.1.1 supertest@6.1.6
-
-          - name: Node.js 7.x
-            node-version: "7"
-            npm-i: mocha@6.2.3 nyc@14.1.1 supertest@6.1.6
-
-          - name: Node.js 8.x
-            node-version: "8"
-            npm-i: mocha@7.2.0 nyc@14.1.1 supertest@6.1.6
-
-          - name: Node.js 9.x
-            node-version: "9"
-            npm-i: mocha@7.2.0 nyc@14.1.1 supertest@6.1.6
-
-          - name: Node.js 10.x
-            node-version: "10"
-            npm-i: mocha@8.4.0 supertest@6.1.6
-
-          - name: Node.js 11.x
-            node-version: "11"
-            npm-i: mocha@8.4.0 supertest@6.1.6
-
-          - name: Node.js 12.x
-            node-version: "12"
-            npm-i: "supertest@6.1.6"
-
-          - name: Node.js 13.x
-            node-version: "13"
-            npm-i: "supertest@6.1.6"
-
-          - name: Node.js 14.x
-            node-version: "14"
-
-          - name: Node.js 15.x
-            node-version: "15"
-            npm-i: "supertest@6.1.6"
-
-          - name: Node.js 16.x
-            node-version: "16"
-
-          - name: Node.js 17.x
-            node-version: "17"
-
-          - name: Node.js 18.x
-            node-version: "18"
-
-          - name: Node.js 19.x
-            node-version: "19"
-
-          - name: Node.js 20.x
-            node-version: "20"
-
-          - name: Node.js 21.x
-            node-version: "21"
-
-          - name: Node.js 22.x
-            node-version: "22"
-
-          - name: Node.js 23.x
-            node-version: "23"
-
-          - name: Node.js 24.x
-            node-version: "24"
+        node-version:
+          - "24"
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
 
-      - name: Install Node.js ${{ matrix.node-version }}
-        shell: bash -eo pipefail -l {0}
-        run: |
-          nvm install --default ${{ matrix.node-version }}
-          if [[ "${{ matrix.node-version }}" == 0.* && "$(cut -d. -f2 <<< "${{ matrix.node-version }}")" -lt 10 ]]; then
-            nvm install --alias=npm 0.10
-            nvm use ${{ matrix.node-version }}
-            sed -i '1s;^.*$;'"$(printf '#!%q' "$(nvm which npm)")"';' "$(readlink -f "$(which npm)")"
-            npm config set strict-ssl false
-          fi
-          dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
-
-      - name: Configure npm
-        run: |
-          if [[ "$(npm config get package-lock)" == "true" ]]; then
-            npm config set package-lock false
-          else
-            npm config set shrinkwrap false
-          fi
-
-      - name: Remove npm module(s) ${{ matrix.npm-rm }}
-        run: npm rm --silent --save-dev ${{ matrix.npm-rm }}
-        if: matrix.npm-rm != ''
-
-      - name: Install npm module(s) ${{ matrix.npm-i }}
-        run: npm install --save-dev ${{ matrix.npm-i }}
-        if: matrix.npm-i != ''
-
-      - name: Setup Node.js version-specific dependencies
-        shell: bash
-        run: |
-          # eslint for linting
-          # - remove on Node.js < 10
-          if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 10 ]]; then
-            node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
-              grep -E '^eslint(-|$)' | \
-              sort -r | \
-              xargs -n1 npm rm --silent --save-dev
-          fi
-
-      - name: Install Node.js dependencies
-        run: npm install
-
-      - name: List environment
-        id: list_env
-        shell: bash
-        run: |
-          echo "node@$(node -v)"
-          echo "npm@$(npm -v)"
-          npm -s ls ||:
-          (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print "::set-output name=" $2 "::" $3 }'
-
-      - name: Run tests
-        shell: bash
-        run: |
-          if npm -ps ls nyc | grep -q nyc; then
-            npm run test-ci
-            cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
-          else
-            npm test
-          fi
-
-      - name: Collect code coverage
-        if: steps.list_env.outputs.nyc != ''
-        run: |
-          if [[ -d ./coverage ]]; then
-            mv ./coverage "./${{ matrix.node-version }}"
-            mkdir ./coverage
-            mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
-          fi
-
-      - name: Upload code coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: steps.list_env.outputs.nyc != ''
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          name: coverage-${{ matrix.node-version }} # to avoid conflicts
-          path: "./coverage/${{ matrix.node-version }}"
-          retention-days: 1
+          node-version: ${{ matrix.node-version }}
 
-  coverage:
-    name: Coverage
-    permissions:
-      checks: write # for coverallsapp/github-action to create new checks
-      contents: read # for actions/checkout to fetch code
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
+      - name: Install dependencies
+        run: npm install --include=dev
 
-      - name: Install lcov
-        shell: bash
-        run: sudo apt-get -y install lcov
+      - name: Build
+        run: node --run build
 
-      - name: Collect coverage reports
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          path: ./coverage
-
-      - name: Merge coverage reports
-        shell: bash
-        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+      - name: Run tests with coverage
+        run: node --run test-ci
 
       - name: Upload coverage report
-        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
         with:
           file: ./coverage/lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}

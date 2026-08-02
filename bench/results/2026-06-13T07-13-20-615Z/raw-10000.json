@@ -1,0 +1,1031 @@
+{
+  "length": 10000,
+  "sessions": 25,
+  "runs": [
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 87.2542,
+          "new": 72.5667
+        },
+        "static no-match": {
+          "old": 27.9916,
+          "new": 22.9875
+        },
+        "wildcard match": {
+          "old": 161.7667,
+          "new": 152.5459
+        },
+        "wildcard match (prefix)": {
+          "old": 152.9958,
+          "new": 151.2375
+        },
+        "wildcard no-match (short)": {
+          "old": 28.5791,
+          "new": 12.6833
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7042,
+          "new": 32.3916
+        },
+        "multi-star match": {
+          "old": 161.6208,
+          "new": 162.65
+        },
+        "regexp match": {
+          "old": 168.0417,
+          "new": 182.55
+        },
+        "no Host": {
+          "old": 7.0792,
+          "new": 8.4125
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 83.0708,
+          "new": 74.9042
+        },
+        "static no-match": {
+          "old": 28.6042,
+          "new": 23.05
+        },
+        "wildcard match": {
+          "old": 158.9084,
+          "new": 149.4625
+        },
+        "wildcard match (prefix)": {
+          "old": 165.6375,
+          "new": 152.6167
+        },
+        "wildcard no-match (short)": {
+          "old": 29.2667,
+          "new": 12.6084
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.1667,
+          "new": 60.8792
+        },
+        "multi-star match": {
+          "old": 167.2542,
+          "new": 182.0333
+        },
+        "regexp match": {
+          "old": 170.2959,
+          "new": 175.5292
+        },
+        "no Host": {
+          "old": 7.0291,
+          "new": 5.3334
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 82.8458,
+          "new": 69.7917
+        },
+        "static no-match": {
+          "old": 29.0084,
+          "new": 22.2958
+        },
+        "wildcard match": {
+          "old": 151.2459,
+          "new": 144.5792
+        },
+        "wildcard match (prefix)": {
+          "old": 152.9625,
+          "new": 145.9917
+        },
+        "wildcard no-match (short)": {
+          "old": 28.9709,
+          "new": 12.7334
+        },
+        "wildcard no-match (suffix)": {
+          "old": 34.45,
+          "new": 35.4083
+        },
+        "multi-star match": {
+          "old": 168.3083,
+          "new": 160.7208
+        },
+        "regexp match": {
+          "old": 168.1875,
+          "new": 175.3625
+        },
+        "no Host": {
+          "old": 7.05,
+          "new": 7.8875
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 79.0292,
+          "new": 68.0667
+        },
+        "static no-match": {
+          "old": 28.3584,
+          "new": 22.275
+        },
+        "wildcard match": {
+          "old": 149.7208,
+          "new": 144.5625
+        },
+        "wildcard match (prefix)": {
+          "old": 149.2167,
+          "new": 146.6
+        },
+        "wildcard no-match (short)": {
+          "old": 28.7333,
+          "new": 12.5708
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7083,
+          "new": 32.6708
+        },
+        "multi-star match": {
+          "old": 164.7292,
+          "new": 163.1416
+        },
+        "regexp match": {
+          "old": 170.5959,
+          "new": 191.8459
+        },
+        "no Host": {
+          "old": 7.05,
+          "new": 5.6792
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 82.4833,
+          "new": 71.2709
+        },
+        "static no-match": {
+          "old": 29.35,
+          "new": 23.05
+        },
+        "wildcard match": {
+          "old": 161.4042,
+          "new": 144.7709
+        },
+        "wildcard match (prefix)": {
+          "old": 148.3167,
+          "new": 147.2291
+        },
+        "wildcard no-match (short)": {
+          "old": 28.6709,
+          "new": 12.6042
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7,
+          "new": 32.375
+        },
+        "multi-star match": {
+          "old": 162.3125,
+          "new": 162.2
+        },
+        "regexp match": {
+          "old": 165.9625,
+          "new": 183.25
+        },
+        "no Host": {
+          "old": 6.8375,
+          "new": 7.7542
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 78.7917,
+          "new": 67.6459
+        },
+        "static no-match": {
+          "old": 28.55,
+          "new": 22.8667
+        },
+        "wildcard match": {
+          "old": 154.625,
+          "new": 149.2875
+        },
+        "wildcard match (prefix)": {
+          "old": 162.0458,
+          "new": 169.8791
+        },
+        "wildcard no-match (short)": {
+          "old": 31.0041,
+          "new": 13.8333
+        },
+        "wildcard no-match (suffix)": {
+          "old": 35.4041,
+          "new": 34.5375
+        },
+        "multi-star match": {
+          "old": 182.3791,
+          "new": 172.8916
+        },
+        "regexp match": {
+          "old": 172.2875,
+          "new": 177.0125
+        },
+        "no Host": {
+          "old": 6.9916,
+          "new": 8.0917
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 78.5,
+          "new": 67.8167
+        },
+        "static no-match": {
+          "old": 28.0666,
+          "new": 22.2334
+        },
+        "wildcard match": {
+          "old": 148.5583,
+          "new": 142.8667
+        },
+        "wildcard match (prefix)": {
+          "old": 145.7708,
+          "new": 145.0667
+        },
+        "wildcard no-match (short)": {
+          "old": 29.55,
+          "new": 12.6625
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.6917,
+          "new": 32.3209
+        },
+        "multi-star match": {
+          "old": 158.1625,
+          "new": 156.5208
+        },
+        "regexp match": {
+          "old": 160.975,
+          "new": 167.1708
+        },
+        "no Host": {
+          "old": 8.2292,
+          "new": 5.4375
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 81.5167,
+          "new": 69.9292
+        },
+        "static no-match": {
+          "old": 27.9167,
+          "new": 23.3209
+        },
+        "wildcard match": {
+          "old": 154.9375,
+          "new": 144.8
+        },
+        "wildcard match (prefix)": {
+          "old": 151.5208,
+          "new": 149.925
+        },
+        "wildcard no-match (short)": {
+          "old": 28.6125,
+          "new": 12.6041
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.8333,
+          "new": 32.5375
+        },
+        "multi-star match": {
+          "old": 161.8041,
+          "new": 159.9
+        },
+        "regexp match": {
+          "old": 165.6292,
+          "new": 174.6792
+        },
+        "no Host": {
+          "old": 7.0042,
+          "new": 7.7167
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 86.0791,
+          "new": 70.8625
+        },
+        "static no-match": {
+          "old": 28.5542,
+          "new": 22.2916
+        },
+        "wildcard match": {
+          "old": 153.7166,
+          "new": 144.8291
+        },
+        "wildcard match (prefix)": {
+          "old": 159.1792,
+          "new": 151.8833
+        },
+        "wildcard no-match (short)": {
+          "old": 30.4459,
+          "new": 12.7542
+        },
+        "wildcard no-match (suffix)": {
+          "old": 34.5625,
+          "new": 35.2667
+        },
+        "multi-star match": {
+          "old": 164.8958,
+          "new": 161.7041
+        },
+        "regexp match": {
+          "old": 169.7,
+          "new": 182.6666
+        },
+        "no Host": {
+          "old": 6.7791,
+          "new": 5.4458
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 80.7208,
+          "new": 69.5708
+        },
+        "static no-match": {
+          "old": 28.1583,
+          "new": 22.2542
+        },
+        "wildcard match": {
+          "old": 151.475,
+          "new": 146.6417
+        },
+        "wildcard match (prefix)": {
+          "old": 152.875,
+          "new": 148.575
+        },
+        "wildcard no-match (short)": {
+          "old": 29.1041,
+          "new": 12.9
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.2041,
+          "new": 32.925
+        },
+        "multi-star match": {
+          "old": 167.9583,
+          "new": 160.6292
+        },
+        "regexp match": {
+          "old": 163.8167,
+          "new": 170.2875
+        },
+        "no Host": {
+          "old": 6.7458,
+          "new": 5.4334
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 81.225,
+          "new": 69.4125
+        },
+        "static no-match": {
+          "old": 28.6667,
+          "new": 22.5542
+        },
+        "wildcard match": {
+          "old": 150.1625,
+          "new": 144.5459
+        },
+        "wildcard match (prefix)": {
+          "old": 148.6917,
+          "new": 145.7542
+        },
+        "wildcard no-match (short)": {
+          "old": 28.6209,
+          "new": 12.6334
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.6958,
+          "new": 32.6958
+        },
+        "multi-star match": {
+          "old": 158.8,
+          "new": 168.075
+        },
+        "regexp match": {
+          "old": 166.3166,
+          "new": 173.6625
+        },
+        "no Host": {
+          "old": 6.6292,
+          "new": 5.4
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 81.4333,
+          "new": 68.4375
+        },
+        "static no-match": {
+          "old": 28.8583,
+          "new": 22.3
+        },
+        "wildcard match": {
+          "old": 149.9125,
+          "new": 143.8458
+        },
+        "wildcard match (prefix)": {
+          "old": 147.4458,
+          "new": 145.9125
+        },
+        "wildcard no-match (short)": {
+          "old": 28.9208,
+          "new": 12.8166
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7625,
+          "new": 32.3916
+        },
+        "multi-star match": {
+          "old": 159.3208,
+          "new": 158.4583
+        },
+        "regexp match": {
+          "old": 161.6042,
+          "new": 170.0083
+        },
+        "no Host": {
+          "old": 8.6375,
+          "new": 5.3625
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 78.45,
+          "new": 66.6083
+        },
+        "static no-match": {
+          "old": 28.0458,
+          "new": 22.2584
+        },
+        "wildcard match": {
+          "old": 149.85,
+          "new": 142.4375
+        },
+        "wildcard match (prefix)": {
+          "old": 147.7542,
+          "new": 153.1834
+        },
+        "wildcard no-match (short)": {
+          "old": 30.3333,
+          "new": 13.35
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.2292,
+          "new": 33.3917
+        },
+        "multi-star match": {
+          "old": 160.8709,
+          "new": 156.9
+        },
+        "regexp match": {
+          "old": 162.0666,
+          "new": 173.6208
+        },
+        "no Host": {
+          "old": 7,
+          "new": 5.6209
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 84.3375,
+          "new": 73
+        },
+        "static no-match": {
+          "old": 29.7333,
+          "new": 23.7292
+        },
+        "wildcard match": {
+          "old": 180.55,
+          "new": 150.775
+        },
+        "wildcard match (prefix)": {
+          "old": 153.3125,
+          "new": 147.9708
+        },
+        "wildcard no-match (short)": {
+          "old": 28.9208,
+          "new": 12.6542
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.6042,
+          "new": 33.525
+        },
+        "multi-star match": {
+          "old": 165.7083,
+          "new": 161.2833
+        },
+        "regexp match": {
+          "old": 166.175,
+          "new": 179.8375
+        },
+        "no Host": {
+          "old": 6.8167,
+          "new": 7.3042
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 82.1625,
+          "new": 75.9375
+        },
+        "static no-match": {
+          "old": 28.0375,
+          "new": 22.4708
+        },
+        "wildcard match": {
+          "old": 155.6,
+          "new": 147.9584
+        },
+        "wildcard match (prefix)": {
+          "old": 149.7083,
+          "new": 148.6833
+        },
+        "wildcard no-match (short)": {
+          "old": 31.2417,
+          "new": 13.0167
+        },
+        "wildcard no-match (suffix)": {
+          "old": 35.6375,
+          "new": 60.4208
+        },
+        "multi-star match": {
+          "old": 164,
+          "new": 184.9666
+        },
+        "regexp match": {
+          "old": 165.3667,
+          "new": 169.8959
+        },
+        "no Host": {
+          "old": 6.9,
+          "new": 5.3125
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 79.7708,
+          "new": 69.8166
+        },
+        "static no-match": {
+          "old": 27.9125,
+          "new": 22.7666
+        },
+        "wildcard match": {
+          "old": 151.5542,
+          "new": 145.8625
+        },
+        "wildcard match (prefix)": {
+          "old": 147.9167,
+          "new": 146.5916
+        },
+        "wildcard no-match (short)": {
+          "old": 29.675,
+          "new": 13.0333
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.4708,
+          "new": 33.4833
+        },
+        "multi-star match": {
+          "old": 163.2375,
+          "new": 161.2292
+        },
+        "regexp match": {
+          "old": 168.15,
+          "new": 176.425
+        },
+        "no Host": {
+          "old": 7.0125,
+          "new": 8.1125
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 86.9042,
+          "new": 74.2916
+        },
+        "static no-match": {
+          "old": 28.8125,
+          "new": 22.3584
+        },
+        "wildcard match": {
+          "old": 152.9208,
+          "new": 156.6875
+        },
+        "wildcard match (prefix)": {
+          "old": 157.0208,
+          "new": 154.0792
+        },
+        "wildcard no-match (short)": {
+          "old": 28.6791,
+          "new": 12.7
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.8833,
+          "new": 32.6958
+        },
+        "multi-star match": {
+          "old": 163.4625,
+          "new": 168.3416
+        },
+        "regexp match": {
+          "old": 164.7375,
+          "new": 175.4
+        },
+        "no Host": {
+          "old": 6.8584,
+          "new": 5.6333
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 85.6083,
+          "new": 68.4042
+        },
+        "static no-match": {
+          "old": 29.3083,
+          "new": 22.8417
+        },
+        "wildcard match": {
+          "old": 153.7208,
+          "new": 144.2458
+        },
+        "wildcard match (prefix)": {
+          "old": 147.0209,
+          "new": 146.0417
+        },
+        "wildcard no-match (short)": {
+          "old": 30.3167,
+          "new": 13.3667
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.6458,
+          "new": 33.025
+        },
+        "multi-star match": {
+          "old": 162.6167,
+          "new": 159.7333
+        },
+        "regexp match": {
+          "old": 166.075,
+          "new": 185.4792
+        },
+        "no Host": {
+          "old": 7.2959,
+          "new": 5.8458
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 80.7208,
+          "new": 70.4667
+        },
+        "static no-match": {
+          "old": 29.3625,
+          "new": 23.2625
+        },
+        "wildcard match": {
+          "old": 165.9708,
+          "new": 145.675
+        },
+        "wildcard match (prefix)": {
+          "old": 149.8334,
+          "new": 146.3834
+        },
+        "wildcard no-match (short)": {
+          "old": 28.6833,
+          "new": 12.6042
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.4792,
+          "new": 32.3583
+        },
+        "multi-star match": {
+          "old": 161.025,
+          "new": 162.2625
+        },
+        "regexp match": {
+          "old": 163.3,
+          "new": 177.0375
+        },
+        "no Host": {
+          "old": 6.7541,
+          "new": 5.4209
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 81.2208,
+          "new": 70.5708
+        },
+        "static no-match": {
+          "old": 28.7875,
+          "new": 23.0875
+        },
+        "wildcard match": {
+          "old": 158.0416,
+          "new": 144.9542
+        },
+        "wildcard match (prefix)": {
+          "old": 149.4542,
+          "new": 146.9292
+        },
+        "wildcard no-match (short)": {
+          "old": 28.65,
+          "new": 12.5792
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7083,
+          "new": 32.375
+        },
+        "multi-star match": {
+          "old": 159.9792,
+          "new": 166.4125
+        },
+        "regexp match": {
+          "old": 166.7541,
+          "new": 175.0917
+        },
+        "no Host": {
+          "old": 7,
+          "new": 5.525
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 83.4625,
+          "new": 73.6375
+        },
+        "static no-match": {
+          "old": 29.0125,
+          "new": 23.05
+        },
+        "wildcard match": {
+          "old": 159.5417,
+          "new": 148.1792
+        },
+        "wildcard match (prefix)": {
+          "old": 151.9,
+          "new": 161.525
+        },
+        "wildcard no-match (short)": {
+          "old": 29.1416,
+          "new": 12.875
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.2125,
+          "new": 32.4625
+        },
+        "multi-star match": {
+          "old": 165.5708,
+          "new": 161.9917
+        },
+        "regexp match": {
+          "old": 167.8,
+          "new": 194.8666
+        },
+        "no Host": {
+          "old": 6.8375,
+          "new": 5.4416
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 80.9417,
+          "new": 68.7125
+        },
+        "static no-match": {
+          "old": 33.5834,
+          "new": 22.8334
+        },
+        "wildcard match": {
+          "old": 152.5542,
+          "new": 142.8375
+        },
+        "wildcard match (prefix)": {
+          "old": 146.9709,
+          "new": 152.4917
+        },
+        "wildcard no-match (short)": {
+          "old": 28.5792,
+          "new": 12.5167
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7042,
+          "new": 32.3875
+        },
+        "multi-star match": {
+          "old": 158.2041,
+          "new": 162.85
+        },
+        "regexp match": {
+          "old": 171.7834,
+          "new": 178.05
+        },
+        "no Host": {
+          "old": 7.0333,
+          "new": 5.6333
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 83.9709,
+          "new": 67.725
+        },
+        "static no-match": {
+          "old": 27.925,
+          "new": 22.775
+        },
+        "wildcard match": {
+          "old": 158.3125,
+          "new": 159.5458
+        },
+        "wildcard match (prefix)": {
+          "old": 150.725,
+          "new": 147.6542
+        },
+        "wildcard no-match (short)": {
+          "old": 29.2792,
+          "new": 12.9167
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.4291,
+          "new": 33.0792
+        },
+        "multi-star match": {
+          "old": 165.9917,
+          "new": 167.4625
+        },
+        "regexp match": {
+          "old": 168.3167,
+          "new": 177.9833
+        },
+        "no Host": {
+          "old": 6.7375,
+          "new": 5.4042
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 80.4667,
+          "new": 69.9666
+        },
+        "static no-match": {
+          "old": 28.8542,
+          "new": 22.375
+        },
+        "wildcard match": {
+          "old": 151.4958,
+          "new": 146.7625
+        },
+        "wildcard match (prefix)": {
+          "old": 148.9417,
+          "new": 146.625
+        },
+        "wildcard no-match (short)": {
+          "old": 28.5917,
+          "new": 12.725
+        },
+        "wildcard no-match (suffix)": {
+          "old": 32.7,
+          "new": 32.3334
+        },
+        "multi-star match": {
+          "old": 159.9041,
+          "new": 160.9583
+        },
+        "regexp match": {
+          "old": 163.8208,
+          "new": 174.3125
+        },
+        "no Host": {
+          "old": 8.25,
+          "new": 5.3417
+        }
+      }
+    },
+    {
+      "length": 10000,
+      "scenarios": {
+        "static match": {
+          "old": 80.5083,
+          "new": 68.7708
+        },
+        "static no-match": {
+          "old": 28.2417,
+          "new": 22.225
+        },
+        "wildcard match": {
+          "old": 149.5958,
+          "new": 144.8584
+        },
+        "wildcard match (prefix)": {
+          "old": 149.7167,
+          "new": 147.0208
+        },
+        "wildcard no-match (short)": {
+          "old": 29.0625,
+          "new": 12.7042
+        },
+        "wildcard no-match (suffix)": {
+          "old": 33.1583,
+          "new": 32.4083
+        },
+        "multi-star match": {
+          "old": 158.9417,
+          "new": 160.9792
+        },
+        "regexp match": {
+          "old": 169.9709,
+          "new": 175.7583
+        },
+        "no Host": {
+          "old": 6.7708,
+          "new": 6.675
+        }
+      }
+    }
+  ]
+}

@@ -11,10 +11,13 @@
 $ npm install vhost
 ```
 
+This package is ESM-only and requires Node.js **24 or newer**. TypeScript type
+declarations are bundled.
+
 ## API
 
 ```js
-var vhost = require('vhost')
+import vhost from 'vhost'
 ```
 
 ### vhost(hostname, handle)
@@ -28,15 +31,21 @@ contain `*` to match 1 or more characters in that section of the hostname. When
 `hostname` is a RegExp, it will be forced to case-insensitive (since hostnames are)
 and will be forced to match based on the start and end of the hostname.
 
+The host used for matching is `req.hostname` when the framework provides one
+(Express 5 populates it, respecting `trust proxy` so hosts forwarded through a
+reverse proxy via `X-Forwarded-Host` are honored), otherwise the raw
+[`Host` header](https://nodejs.org/dist/latest/docs/api/http.html#messageheaders)
+(plain Node.js / connect servers).
+
 When host is matched and the request is sent down to a vhost handler, the `req.vhost`
 property will be populated with an object. This object will have numeric properties
 corresponding to each wildcard (or capture group if RegExp object provided) and the
 `hostname` that was matched.
 
 ```js
-var connect = require('connect')
-var vhost = require('vhost')
-var app = connect()
+import connect from 'connect'
+import vhost from 'vhost'
+const app = connect()
 
 app.use(vhost('*.*.example.com', function handle (req, res, next) {
   // for match of "foo.bar.example.com:8080" against "*.*.example.com":
@@ -48,25 +57,35 @@ app.use(vhost('*.*.example.com', function handle (req, res, next) {
 }))
 ```
 
+### TypeScript
+
+The package ships type declarations. The shape assigned to `req.vhost` is exported as
+`VHost`, and `vhost()` is generic over the request and response types so it works with
+raw `http`, connect, or Express handlers without casting:
+
+```ts
+import vhost, { type VHost } from 'vhost'
+```
+
 ## Examples
 
 ### using with connect for static serving
 
 ```js
-var connect = require('connect')
-var serveStatic = require('serve-static')
-var vhost = require('vhost')
+import connect from 'connect'
+import serveStatic from 'serve-static'
+import vhost from 'vhost'
 
-var mailapp = connect()
+const mailapp = connect()
 
 // add middlewares to mailapp for mail.example.com
 
 // create app to serve static files on subdomain
-var staticapp = connect()
+const staticapp = connect()
 staticapp.use(serveStatic('public'))
 
 // create main app
-var app = connect()
+const app = connect()
 
 // add vhost routing to main app for mail
 app.use(vhost('mail.example.com', mailapp))
@@ -83,19 +102,19 @@ app.listen(3000)
 ### using with connect for user subdomains
 
 ```js
-var connect = require('connect')
-var serveStatic = require('serve-static')
-var vhost = require('vhost')
+import connect from 'connect'
+import serveStatic from 'serve-static'
+import vhost from 'vhost'
 
-var mainapp = connect()
+const mainapp = connect()
 
 // add middlewares to mainapp for the main web site
 
 // create app that will server user content from public/{username}/
-var userapp = connect()
+const userapp = connect()
 
 userapp.use(function (req, res, next) {
-  var username = req.vhost[0] // username is the "*"
+  const username = req.vhost[0] // username is the "*"
 
   // pretend request was for /{username}/* for file serving
   req.originalUrl = req.url
@@ -106,7 +125,7 @@ userapp.use(function (req, res, next) {
 userapp.use(serveStatic('public'))
 
 // create main app
-var app = connect()
+const app = connect()
 
 // add vhost routing for main app
 app.use(vhost('userpages.local', mainapp))
@@ -121,12 +140,12 @@ app.listen(3000)
 ### using with any generic request handler
 
 ```js
-var connect = require('connect')
-var http = require('http')
-var vhost = require('vhost')
+import connect from 'connect'
+import http from 'node:http'
+import vhost from 'vhost'
 
 // create main app
-var app = connect()
+const app = connect()
 
 app.use(vhost('mail.example.com', function (req, res) {
   // handle req + res belonging to mail.example.com
@@ -135,7 +154,7 @@ app.use(vhost('mail.example.com', function (req, res) {
 }))
 
 // an external api server in any framework
-var httpServer = http.createServer(function (req, res) {
+const httpServer = http.createServer(function (req, res) {
   res.setHeader('Content-Type', 'text/plain')
   res.end('hello from the api!')
 })

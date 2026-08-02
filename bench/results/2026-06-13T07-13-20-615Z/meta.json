@@ -1,0 +1,26 @@
+{
+  "runId": "2026-06-13T07-13-20-615Z",
+  "timestamp": "2026-06-13T07:13:20.688Z",
+  "node": "v24.15.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "sessions": 25,
+  "lengths": [
+    10000,
+    100000,
+    1000000
+  ],
+  "scenarios": [
+    "static match",
+    "static no-match",
+    "wildcard match",
+    "wildcard match (prefix)",
+    "wildcard no-match (short)",
+    "wildcard no-match (suffix)",
+    "multi-star match",
+    "regexp match",
+    "no Host"
+  ],
+  "baseline": "bench/v3-baseline.cjs (v3.0.2)",
+  "candidate": "package \"vhost\" entry (current build)"
+}
