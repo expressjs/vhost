@@ -68,7 +68,7 @@ function vhost (hostname, handle) {
 /**
  * Get hostname of request.
  *
- * @param (object} req
+ * @param {object} req
  * @return {string}
  * @private
  */
