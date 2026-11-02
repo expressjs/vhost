@@ -21,7 +21,6 @@ module.exports = vhost
 
 var ASTERISK_REGEXP = /\*/g
 var ASTERISK_REPLACE = '([^.]+)'
-var END_ANCHORED_REGEXP = /(?:^|[^\\])(?:\\\\)*\$$/
 var ESCAPE_REGEXP = /([.+?^=!:${}()|[\]/\\])/g
 var ESCAPE_REPLACE = '\\$1'
 
@@ -114,17 +113,8 @@ function hostregexp (val) {
     ? String(val).replace(ESCAPE_REGEXP, ESCAPE_REPLACE).replace(ASTERISK_REGEXP, ASTERISK_REPLACE)
     : val.source
 
-  // force leading anchor matching
-  if (source[0] !== '^') {
-    source = '^' + source
-  }
-
-  // force trailing anchor matching
-  if (!END_ANCHORED_REGEXP.test(source)) {
-    source += '$'
-  }
-
-  return new RegExp(source, 'i')
+  // force leading and trailing anchor matching
+  return new RegExp('^(?:' + source + ')$', 'i')
 }
 
 /**

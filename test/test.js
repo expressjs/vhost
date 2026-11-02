@@ -200,6 +200,34 @@ describe('vhost(hostname, server)', function () {
         .expect(404, done)
     })
 
+    it('should match any alternative', function (done) {
+      var app = createServer(/tobi\.com|loki\.com/, function (req, res) {
+        res.end('tobi')
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'loki.com')
+        .expect(200, 'tobi', done)
+    })
+
+    it('should match entire hostname with alternation', function (done) {
+      var app = createServer(/tobi\.com|loki\.com/, function (req, res) {
+        res.end('tobi')
+      })
+
+      request(app)
+        .get('/')
+        .set('Host', 'tobi.com.ferret.net')
+        .expect(404, function (err) {
+          if (err) return done(err)
+          request(app)
+            .get('/')
+            .set('Host', 'ferret.loki.com')
+            .expect(404, done)
+        })
+    })
+
     it('should populate req.vhost', function (done) {
       var app = createServer(/user-(bob|joe)\.([^.]+)\.com/, function (req, res) {
         var keys = Object.keys(req.vhost).sort()
